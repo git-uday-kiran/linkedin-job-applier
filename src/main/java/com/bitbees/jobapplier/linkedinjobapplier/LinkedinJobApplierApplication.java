@@ -1,12 +1,10 @@
 package com.bitbees.jobapplier.linkedinjobapplier;
 
-import com.bitbees.jobapplier.linkedinjobapplier.locations.LinkedinPages;
-import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
-import com.bitbees.jobapplier.linkedinjobapplier.services.NavigatorService;
+import com.bitbees.jobapplier.linkedinjobapplier.models.JobsPage;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class LinkedinJobApplierApplication {
@@ -15,14 +13,14 @@ public class LinkedinJobApplierApplication {
         SpringApplication.run(LinkedinJobApplierApplication.class, args);
     }
 
-    @EventListener(ApplicationStartedEvent.class)
-    public void onApplicationEvent(ApplicationStartedEvent event) {
-        var ctx = event.getApplicationContext();
-        var navigatorService = ctx.getBean(NavigatorService.class);
-        navigatorService.goTo(LinkedinPages.JOBS_PAGE, new Page.Config(true));
+    @Bean
+    CommandLineRunner commandLineRunner(JobsPage jobsPage) {
+        return args -> {
+
+            jobsPage.navigate();
+            jobsPage.search("Java Developer");
+            jobsPage.searchLocation("Bengaluru, India");
+        };
     }
 
-
-    private LinkedinJobApplierApplication() {
-    }
 }

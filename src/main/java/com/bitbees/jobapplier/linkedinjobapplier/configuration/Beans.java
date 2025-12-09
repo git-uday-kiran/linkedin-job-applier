@@ -5,10 +5,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
+import java.time.Duration;
 
 @Log4j2
 @Configuration
@@ -32,6 +34,11 @@ public class Beans {
         var firefoxDriver = new FirefoxDriver(options);
         log.info("Web driver loaded");
         return firefoxDriver;
+    }
+
+    @Bean
+    WebDriverWait webDriverWait(WebDriver webDriver) {
+        return new WebDriverWait(webDriver, Duration.ofSeconds(20));
     }
 
 }
