@@ -26,7 +26,7 @@ public class LinkedinJobApplierApplication {
             jobsPage.navigate();
             jobsPage.search("Java Developer");
             jobsPage.searchLocation("Bengaluru, India");
-            jobsPage.applyFilter(searchFilter);
+            jobsPage.applyEasyApplyFilters(searchFilter);
 
             TimeUnit.SECONDS.sleep(1000);
         };
