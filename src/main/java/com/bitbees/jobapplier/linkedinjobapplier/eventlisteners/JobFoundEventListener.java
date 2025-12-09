@@ -19,6 +19,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
     private static final By EASY_APPLY_MODEL = By.cssSelector("div[data-test-modal-id='easy-apply-modal']");
     private static final By DISCARD_APPLICATION = By.xpath("");
     private static final By SHOW_ALL_LOCATION = By.cssSelector(".discovery-templates-vertical-list__footer > a");
+    public static final By SHADOW_PARENT_LOCATION = By.xpath("//div[@id='interop-outlet']");
 
     private final WidGet widGet;
     private final ShadowPageHelper shadowPageHelper;
@@ -63,7 +64,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
         log.info("Applying job... ");
         click(easyApplyElement);
 
-        WebElement shadowParent = webDriver.findElement(By.xpath("//div[@id='interop-outlet']"));
+        WebElement shadowParent = webDriver.findElement(SHADOW_PARENT_LOCATION);
         SearchContext shadowRoot = shadowParent.getShadowRoot();
 
         shadowPageHelper.waitForPresence(shadowRoot, EASY_APPLY_MODEL);
