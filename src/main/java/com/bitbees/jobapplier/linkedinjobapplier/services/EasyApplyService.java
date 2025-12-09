@@ -61,7 +61,7 @@ public class EasyApplyService extends Page {
         pause(Duration.ofSeconds(4));
     }
 
-    public void clickAdvancedFilters() {
+    private void clickAdvancedFilters() {
         log.info("Clicking advanced filters option...");
         var location = By.xpath("//button[normalize-space()='All filters']");
         WebElement filtersOption = waitForPresenceAndClickable(location);

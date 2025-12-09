@@ -2,6 +2,7 @@ package com.bitbees.jobapplier.linkedinjobapplier;
 
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.filters.EasyApplyFilter;
 import com.bitbees.jobapplier.linkedinjobapplier.models.JobsPage;
+import com.bitbees.jobapplier.linkedinjobapplier.services.JobsFinder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,13 +22,16 @@ public class LinkedinJobApplierApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(JobsPage jobsPage, EasyApplyFilter searchFilter) {
+    CommandLineRunner commandLineRunner(JobsPage jobsPage,
+                                        JobsFinder jobsFinder,
+                                        EasyApplyFilter searchFilter) {
         return args -> {
             jobsPage.navigate();
             jobsPage.search("Java Developer");
             jobsPage.searchLocation("Bengaluru, India");
             jobsPage.applyEasyApplyFilters(searchFilter);
 
+            jobsFinder.scanJobs();
             TimeUnit.SECONDS.sleep(1000);
         };
     }
