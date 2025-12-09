@@ -1,4 +1,4 @@
-package com.bitbees.jobapplier.linkedinjobapplier.enums;
+package com.bitbees.jobapplier.linkedinjobapplier.easyapply.enums;
 
 import lombok.Getter;
 import org.openqa.selenium.By;

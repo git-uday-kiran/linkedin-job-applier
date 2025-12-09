@@ -1,6 +1,8 @@
 package com.bitbees.jobapplier.linkedinjobapplier.models;
 
 import com.bitbees.jobapplier.linkedinjobapplier.components.UnorderedList;
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.enums.*;
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.filters.EasyApplyFilter;
 import io.vavr.control.Try;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.*;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -34,7 +37,6 @@ public class JobsPage extends Page {
     public void search(String query) {
         log.info("Searching for jobs with query: {}", query);
         WebElement searchElement = waitForPresenceAndClickable(searchLocation);
-        waitForClickable(searchElement);
         pause(Duration.ofSeconds(1));
         searchElement.clear();
         searchElement.sendKeys(query, Keys.ENTER);
@@ -45,7 +47,7 @@ public class JobsPage extends Page {
         log.info("Searching for jobs with location: {}", location);
         // Click location search input box
         WebElement addressLocationElement = waitForPresenceAndClickable(addressLocation);
-        pause(Duration.ofSeconds(2));
+        pause(Duration.ofSeconds(4));
         addressLocationElement.clear();
         addressLocationElement.sendKeys(location);
 
@@ -58,6 +60,53 @@ public class JobsPage extends Page {
         Try.of(() -> waitForPresenceAndClickable(locationCompletePopupLocation))
                 .andThen(this::resolveLocationsAutoCompletion)
                 .orElseRun(logError("Location auto completion fillup failed"));
+    }
+
+    public void applyFilter(EasyApplyFilter filter) {
+        log.info("Applying easy apply filter: {}", filter);
+        clickAdvancedFilters();
+
+        findAndClick(filter.getSortBy().getLocation());
+        findAndClick(filter.getDatePosted().getLocation());
+
+        filter.getExperienceLevels().stream()
+                .map(ExperienceLevel::getLocation)
+                .forEach(this::findAndClick);
+
+        filter.getJobTypes().stream()
+                .map(JobType::getLocation)
+                .forEach(this::findAndClick);
+
+        filter.getWorkTypes().stream()
+                .map(WorkType::getLocation)
+                .forEach(this::findAndClick);
+
+        if (filter.getEasyApply() == EasyApplyOption.ENABLE) {
+            findAndClick(filter.getEasyApply().getLocation());
+        }
+
+        filter.getLocations().stream()
+                .map(Location::getLocation)
+                .map(this::tryFindElement)
+                .flatMap(Optional::stream)
+                .forEach(this::click);
+
+        if (filter.getUnder10Applicants() == Under10Applicants.ENABLE) {
+            findAndClick(filter.getUnder10Applicants().getLocation());
+        }
+
+        By applyFilterLocation = By.xpath("/html/body/div[4]/div/div/div[3]/div/button[2]/span");
+        WebElement applyFilter = waitForPresenceAndClickable(applyFilterLocation);
+        log.info("Clicking apply filter...");
+        click(applyFilter);
+        pause(Duration.ofSeconds(4));
+    }
+
+    public void clickAdvancedFilters() {
+        log.info("Clicking advanced filters option...");
+        var location = By.xpath("//button[normalize-space()='All filters']");
+        WebElement filtersOption = waitForPresenceAndClickable(location);
+        click(filtersOption);
     }
 
     private void resolveLocationsAutoCompletion(WebElement autoCompletionPopupElement) {

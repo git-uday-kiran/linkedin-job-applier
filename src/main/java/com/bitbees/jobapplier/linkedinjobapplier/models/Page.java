@@ -7,8 +7,12 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Consumer;
+
+import static io.vavr.API.run;
 
 @Log4j2
 public class Page {
@@ -16,9 +20,50 @@ public class Page {
     protected final WebDriver webDriver;
     protected final WebDriverWait wait;
 
-    public Page(WebDriver webDriver, WebDriverWait wait) {
+    protected Page(WebDriver webDriver, WebDriverWait wait) {
         this.webDriver = webDriver;
         this.wait = wait;
+    }
+
+    protected Optional<WebElement> tryFindElement(By location) {
+        List<WebElement> elements = webDriver.findElements(location);
+        return elements.isEmpty() ? Optional.empty() : Optional.of(elements.getFirst());
+    }
+
+    protected void click(WebElement element) {
+        String clicked = element.getText().replace('\n', ' ');
+        if (clicked.isEmpty()) {
+            clicked = element.getAccessibleName();
+        }
+
+        scrollIntoView(element);
+        waitForClickable(element);
+        highlight(element);
+
+        element.click();
+        log.info("Clicked: {}", clicked);
+    }
+
+    protected void findAndClick(By location) {
+        WebElement element = webDriver.findElement(location);
+        click(element);
+    }
+
+    protected void scrollIntoView(WebElement element) {
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", element);
+        run(() -> waitForVisible(element));
+    }
+
+    protected void waitForVisible(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected void highlight(WebElement... webElements) {
+        String script = "arguments[0].setAttribute('style', 'border: 2px solid yellow')";
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        for (WebElement webElement : webElements) {
+            js.executeScript(script, webElement);
+        }
     }
 
     protected void waitForClickable(WebElement searchElement) {
@@ -39,6 +84,8 @@ public class Page {
             // Step 2: Wait for element to be visible
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 
+            wait.until(ExpectedConditions.elementToBeClickable(locator));
+
             // Step 3: Wait for element to be clickable
             return wait
                     .ignoring(StaleElementReferenceException.class)
@@ -57,5 +104,4 @@ public class Page {
     protected Consumer<Throwable> logError(String message) {
         return throwable -> log.error(message, throwable);
     }
-
 }
