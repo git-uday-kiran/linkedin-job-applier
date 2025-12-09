@@ -32,6 +32,7 @@ public class JobsPage extends Page {
     }
 
     public void search(String query) {
+        log.info("Searching for jobs with query: {}", query);
         WebElement searchElement = waitForPresenceAndClickable(searchLocation);
         waitForClickable(searchElement);
         pause(Duration.ofSeconds(1));
@@ -41,6 +42,7 @@ public class JobsPage extends Page {
     }
 
     public void searchLocation(String location) {
+        log.info("Searching for jobs with location: {}", location);
         // Click location search input box
         WebElement addressLocationElement = waitForPresenceAndClickable(addressLocation);
         pause(Duration.ofSeconds(2));
@@ -59,6 +61,7 @@ public class JobsPage extends Page {
     }
 
     private void resolveLocationsAutoCompletion(WebElement autoCompletionPopupElement) {
+        log.info("Resolving location auto completion");
         // All autocompletion location
         List<WebElement> suggestedLocations = (new UnorderedList(autoCompletionPopupElement)).getLiElements();
         suggestedLocations.getFirst().click();
