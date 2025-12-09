@@ -13,7 +13,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.Optional;
 
 
 @Component
@@ -44,14 +43,14 @@ public class WidGet extends Page {
         this.checkBoxQuestions = checkBoxQuestions;
     }
 
-    public void init() {
+    public void scan() {
         selectOptionsQuestions.scan();
         radioOptionsQuestions.scan();
         inputQuestions.scan();
         checkBoxQuestions.scan();
     }
 
-    public Optional<WidGet> nextWidget() {
+    public boolean hasNextWidget() {
         Try<Void> tried = tryClick(SUBMIT_APPLICATION)
                 .orElse(tryClick(REVIEW))
                 .orElse(tryClick(NEXT))
@@ -59,11 +58,11 @@ public class WidGet extends Page {
 
         if (tried.isSuccess()) {
             pause(Duration.ofSeconds(3));
-            return Optional.of(this);
+            return true;
         }
         pause(Duration.ofSeconds(3));
         doUntilSuccess(() -> tryClickDismiss().orElse(this::tryClickDone));
-        return Optional.empty();
+        return false;
     }
 
     private Try<Void> tryClickDismiss() {

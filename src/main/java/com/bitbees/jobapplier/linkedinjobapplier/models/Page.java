@@ -118,6 +118,10 @@ public class Page {
         }
     }
 
+    public WebElement waitForElementPresence(By location) {
+        return wait.until(ExpectedConditions.presenceOfElementLocated(location));
+    }
+
     public WebElement waitForPresence(By location) {
         return wait.until(ExpectedConditions.presenceOfElementLocated(location));
     }
