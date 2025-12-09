@@ -2,7 +2,6 @@ package com.bitbees.jobapplier.linkedinjobapplier.services;
 
 import com.bitbees.jobapplier.linkedinjobapplier.events.JobFoundEvent;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
-import com.bitbees.jobapplier.linkedinjobapplier.pages.JobCard;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
@@ -35,7 +34,7 @@ public class JobsFinder extends Page implements ApplicationContextAware {
         for (int page = 1; page <= 100; page++) {
             List<WebElement> jobs = getNewJobs();
             jobs.stream()
-                    .map(element -> new JobCard(webDriver, wait, element))
+                    .map(this::getJobUrl)
                     .map(JobFoundEvent::new)
                     .forEach(ctx::publishEvent);
             if (!tryGotToPage(page + 1)) {
@@ -43,6 +42,12 @@ public class JobsFinder extends Page implements ApplicationContextAware {
                 break;
             }
         }
+    }
+
+    private String getJobUrl(WebElement jobCardElement) {
+        scrollIntoView(jobCardElement);
+        WebElement element = jobCardElement.findElement(By.xpath(".//a"));
+        return element.getAttribute("href");
     }
 
     private List<WebElement> getNewJobs() {

@@ -8,6 +8,7 @@ import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import io.vavr.control.Try;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
@@ -50,7 +51,7 @@ public class WidGet extends Page {
         checkBoxQuestions.scan();
     }
 
-    public boolean hasNextWidget() {
+    public boolean hasNextWidget(SearchContext shadowRoot) {
         Try<Void> tried = tryClick(SUBMIT_APPLICATION)
                 .orElse(tryClick(REVIEW))
                 .orElse(tryClick(NEXT))
@@ -71,5 +72,9 @@ public class WidGet extends Page {
 
     private Try<Void> tryClickDone() {
         return Try.run(() -> click(waitForPresenceAndClickable(CLOSE_BUTTON)));
+    }
+
+    public Try<Void> tryClick(By locator) {
+        return Try.run(() -> findAndClick(locator));
     }
 }

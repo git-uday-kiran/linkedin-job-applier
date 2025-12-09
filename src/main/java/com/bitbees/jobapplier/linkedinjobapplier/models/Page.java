@@ -47,10 +47,6 @@ public class Page {
         while (Try.run(action).isFailure()) ;
     }
 
-    public Try<Void> tryClick(By locator) {
-        return Try.run(() -> findAndClick(locator));
-    }
-
     public void tryClick(WebElement element) {
         Try.run(() -> click(element));
     }
@@ -79,6 +75,13 @@ public class Page {
 
     protected WebElement waitForClickable(WebElement searchElement) {
         return wait.until(ExpectedConditions.elementToBeClickable(searchElement));
+    }
+
+    protected WebElement findFirstClickableElement(By locator) {
+        return webDriver.findElements(locator).stream()
+                .filter(e -> e.isDisplayed() && e.isEnabled())
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Can not find first clickable element of location: " + locator));
     }
 
     protected void pause(Duration duration) {

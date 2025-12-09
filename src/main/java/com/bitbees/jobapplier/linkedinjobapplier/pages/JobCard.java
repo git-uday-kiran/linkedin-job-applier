@@ -5,6 +5,7 @@ import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -62,8 +63,13 @@ public class JobCard extends Page {
 
     public void click() {
         tryClick(jobElement);
+
+//        waitForPageToLoad();
+        WebElement loadObserverElement = jobElement.findElement(By.xpath("./div/div"));
+        wait.until(ExpectedConditions.attributeToBe(loadObserverElement, "aria-current", "page"));
+
         if (description == null) {
-            pause(Duration.ofSeconds(3));
+            pause(Duration.ofSeconds(1));
             findAndStoreDescription();
             this.url = webDriver.getCurrentUrl();
         }
