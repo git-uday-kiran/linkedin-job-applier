@@ -2,7 +2,7 @@ package com.bitbees.jobapplier.linkedinjobapplier.eventlisteners;
 
 import com.bitbees.jobapplier.linkedinjobapplier.events.JobFoundEvent;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
-import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowPageHelper;
+import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
@@ -22,15 +22,12 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
     public static final By SHADOW_PARENT_LOCATION = By.xpath("//div[@id='interop-outlet']");
 
     private final WidGet widGet;
-    private final ShadowPageHelper shadowPageHelper;
 
     protected JobFoundEventListener(WebDriver webDriver,
                                     WebDriverWait wait,
-                                    WidGet widGet,
-                                    ShadowPageHelper shadowPageHelper) {
+                                    WidGet widGet) {
         super(webDriver, wait);
         this.widGet = widGet;
-        this.shadowPageHelper = shadowPageHelper;
     }
 
     @Override
@@ -66,11 +63,12 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
 
         WebElement shadowParent = webDriver.findElement(SHADOW_PARENT_LOCATION);
         SearchContext shadowRoot = shadowParent.getShadowRoot();
+        ShadowRootHelper shadowRootHelper = new ShadowRootHelper(shadowRoot, wait, webDriver);
 
-        shadowPageHelper.waitForPresence(shadowRoot, EASY_APPLY_MODEL);
+        shadowRootHelper.waitForPresence(EASY_APPLY_MODEL);
         System.out.println("Widget scanning....");
         do {
             widGet.scan();
-        } while (widGet.hasNextWidget(shadowRoot));
+        } while (widGet.hasNextWidget(shadowRootHelper));
     }
 }

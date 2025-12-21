@@ -5,10 +5,10 @@ import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.Inpu
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.RadioOptionsQuestions;
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.SelectOptionsQuestions;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
+import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import io.vavr.control.Try;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import java.time.Duration;
 @Component
 public class WidGet extends Page {
 
-    private static final By NEXT = By.xpath("//span[text()='Next']");
+    private static final By NEXT = By.cssSelector("button[aria-label*='Continue to next step']");
     private static final By REVIEW = By.xpath("//span[text()='Review']");
     private static final By SUBMIT_APPLICATION = By.xpath("//span[text()='Submit application']");
     private static final By CLOSE_WIDGET = By.xpath("//button[@data-test-modal-close-btn]");
@@ -51,11 +51,11 @@ public class WidGet extends Page {
         checkBoxQuestions.scan();
     }
 
-    public boolean hasNextWidget(SearchContext shadowRoot) {
-        Try<Void> tried = tryClick(SUBMIT_APPLICATION)
-                .orElse(tryClick(REVIEW))
-                .orElse(tryClick(NEXT))
-                .orElse(tryClick(CONTINUE_APPLYING));
+    public boolean hasNextWidget(ShadowRootHelper shadowRootHelper) {
+        Try<Void> tried = tryClick(shadowRootHelper, SUBMIT_APPLICATION)
+                .orElse(tryClick(shadowRootHelper, REVIEW))
+                .orElse(tryClick(shadowRootHelper, NEXT))
+                .orElse(tryClick(shadowRootHelper, CONTINUE_APPLYING));
 
         if (tried.isSuccess()) {
             pause(Duration.ofSeconds(3));
@@ -74,7 +74,7 @@ public class WidGet extends Page {
         return Try.run(() -> click(waitForPresenceAndClickable(CLOSE_BUTTON)));
     }
 
-    public Try<Void> tryClick(By locator) {
-        return Try.run(() -> findAndClick(locator));
+    public Try<Void> tryClick(ShadowRootHelper shadowRootHelper, By locator) {
+        return Try.run(() -> shadowRootHelper.findAndClick(locator));
     }
 }
