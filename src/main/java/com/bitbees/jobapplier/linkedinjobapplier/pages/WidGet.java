@@ -1,54 +1,46 @@
 package com.bitbees.jobapplier.linkedinjobapplier.pages;
 
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.CheckBoxQuestions;
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.InputQuestions;
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.RadioOptionsQuestions;
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.SelectOptionsQuestions;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import io.vavr.control.Try;
-import org.apache.logging.log4j.Logger;
+import lombok.NonNull;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import java.time.Duration;
+import java.util.Objects;
 
 
-@Component
-public class WidGet extends Page {
+public class WidGet extends Page implements ApplicationContextAware {
 
-    private static final By NEXT = By.cssSelector("button[aria-label*='Continue to next step']");
-    private static final By REVIEW = By.xpath("//span[text()='Review']");
-    private static final By SUBMIT_APPLICATION = By.xpath("//span[text()='Submit application']");
-    private static final By CLOSE_WIDGET = By.xpath("//button[@data-test-modal-close-btn]");
+    private static ApplicationContext ctx;
+
+    private static final By NEXT = By.cssSelector("button[aria-label='Continue to next step']");
+    private static final By REVIEW = By.cssSelector("button[aria-label='Review your application']");
+    private static final By SUBMIT_APPLICATION = By.cssSelector("button[aria-label='Submit application']");
+    private static final By CLOSE_WIDGET = By.cssSelector("button[aria-label='Dismiss']");
     private static final By CONTINUE_APPLYING = By.xpath("//span[text()='Continue applying']");
     private static final By CLOSE_BUTTON = By.xpath("//span[text()='Done']");
 
-    private static final Logger log = org.apache.logging.log4j.LogManager.getLogger(WidGet.class);
-    private final RadioOptionsQuestions radioOptionsQuestions;
-    private final SelectOptionsQuestions selectOptionsQuestions;
     private final InputQuestions inputQuestions;
-    private final CheckBoxQuestions checkBoxQuestions;
+    private final ShadowRootHelper shadowRootHelper;
 
-    protected WidGet(WebDriver webDriver, WebDriverWait wait,
-                     RadioOptionsQuestions radioOptionsQuestions,
-                     SelectOptionsQuestions selectOptionsQuestions,
-                     InputQuestions inputQuestions,
-                     CheckBoxQuestions checkBoxQuestions) {
+    public WidGet(WebDriver webDriver,
+                  WebDriverWait wait,
+                  ShadowRootHelper shadowRootHelper,
+                  InputQuestions inputQuestions) {
         super(webDriver, wait);
-        this.radioOptionsQuestions = radioOptionsQuestions;
-        this.selectOptionsQuestions = selectOptionsQuestions;
+        this.shadowRootHelper = shadowRootHelper;
         this.inputQuestions = inputQuestions;
-        this.checkBoxQuestions = checkBoxQuestions;
     }
 
     public void scan() {
-        selectOptionsQuestions.scan();
-        radioOptionsQuestions.scan();
-        inputQuestions.scan();
-        checkBoxQuestions.scan();
+        inputQuestions.scan(shadowRootHelper);
     }
 
     public boolean hasNextWidget(ShadowRootHelper shadowRootHelper) {
@@ -62,12 +54,12 @@ public class WidGet extends Page {
             return true;
         }
         pause(Duration.ofSeconds(3));
-        doUntilSuccess(() -> tryClickDismiss().orElse(this::tryClickDone));
+        doUntilSuccess(() -> tryClickDismiss(shadowRootHelper));
         return false;
     }
 
-    private Try<Void> tryClickDismiss() {
-        return Try.run(() -> click(waitForPresenceAndClickable(CLOSE_WIDGET)));
+    private Try<Void> tryClickDismiss(ShadowRootHelper shadowRootHelper) {
+        return Try.run(() -> shadowRootHelper.click(shadowRootHelper.waitForPresenceAndClickable(CLOSE_WIDGET)));
     }
 
     private Try<Void> tryClickDone() {
@@ -77,4 +69,11 @@ public class WidGet extends Page {
     public Try<Void> tryClick(ShadowRootHelper shadowRootHelper, By locator) {
         return Try.run(() -> shadowRootHelper.findAndClick(locator));
     }
+
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+        Objects.requireNonNull(applicationContext);
+        ctx = applicationContext;
+    }
+
 }

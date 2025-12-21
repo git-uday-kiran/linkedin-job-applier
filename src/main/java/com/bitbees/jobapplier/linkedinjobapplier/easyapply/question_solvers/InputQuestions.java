@@ -1,6 +1,8 @@
 package com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers;
 
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.input_solvers.NumericQuestionsSolver;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
+import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -14,6 +16,8 @@ public class InputQuestions extends Page {
 
     private static final Logger log = LogManager.getLogger(InputQuestions.class);
 
+    private final NumericQuestionsSolver numericQuestionsSolver;
+
 //    private final QuestionAnswerService qaService;
 
     private final By inputQuestionGroupLocation = By.xpath("//div[@data-test-single-line-text-form-component=\"\"]");
@@ -23,18 +27,14 @@ public class InputQuestions extends Page {
     private final By inputLocation = By.xpath(".//*[self::input[@type='text'] or self::textarea]");
     private final By citySuggestionsLocation = By.xpath("following-sibling::div[1]");
 
-    protected InputQuestions(WebDriver webDriver, WebDriverWait wait) {
+    protected InputQuestions(WebDriver webDriver, WebDriverWait wait, NumericQuestionsSolver numericQuestionsSolver) {
         super(webDriver, wait);
+        this.numericQuestionsSolver = numericQuestionsSolver;
     }
 
 
-    public void scan() {
-//        if (isPresentInDOM(inputQuestionGroupLocation)) {
-//        findAll(inputQuestionGroupLocation).stream()
-//                .map(this::scrollIntoView)
-//                .map(this::waitForClickable)
-//                .forEach(this::solveQuestion);
-//        }
+    public void scan(ShadowRootHelper shadowRootHelper) {
+        numericQuestionsSolver.scan(shadowRootHelper);
     }
 
     private void solveQuestion(WebElement question) {

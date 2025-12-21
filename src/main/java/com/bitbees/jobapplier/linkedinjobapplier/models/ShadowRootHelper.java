@@ -1,6 +1,7 @@
 package com.bitbees.jobapplier.linkedinjobapplier.models;
 
 import io.vavr.control.Try;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,6 +11,7 @@ public class ShadowRootHelper {
 
     private final WebDriverWait wait;
     private final WebDriver webDriver;
+    @Getter
     private final SearchContext shadowRoot;
 
     public ShadowRootHelper(SearchContext shadowRoot, WebDriverWait wait, WebDriver webDriver) {
@@ -67,9 +69,10 @@ public class ShadowRootHelper {
         });
     }
 
-    public void findAndClick(By location) {
+    public WebElement findAndClick(By location) {
         WebElement element = shadowRoot.findElement(location);
         click(element);
+        return element;
     }
 
     public void click(WebElement element) {

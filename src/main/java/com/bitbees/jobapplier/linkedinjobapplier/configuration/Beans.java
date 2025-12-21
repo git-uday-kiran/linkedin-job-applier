@@ -1,11 +1,18 @@
 package com.bitbees.jobapplier.linkedinjobapplier.configuration;
 
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.InputQuestions;
+import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
+import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +21,9 @@ import java.time.Duration;
 
 @Log4j2
 @Configuration
-public class Beans {
+public class Beans implements ApplicationContextAware {
+
+    private static ApplicationContext context;
 
     @Bean(destroyMethod = "quit")
     WebDriver webDriver() {
@@ -41,4 +50,17 @@ public class Beans {
         return new WebDriverWait(webDriver, Duration.ofSeconds(20));
     }
 
+    public static WidGet widGet(ShadowRootHelper shadowRootHelper) {
+        return new WidGet(
+                context.getBean(WebDriver.class),
+                context.getBean(WebDriverWait.class),
+                shadowRootHelper,
+                context.getBean(InputQuestions.class)
+        );
+    }
+
+    @Override
+    public void setApplicationContext(@NonNull ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
+    }
 }
