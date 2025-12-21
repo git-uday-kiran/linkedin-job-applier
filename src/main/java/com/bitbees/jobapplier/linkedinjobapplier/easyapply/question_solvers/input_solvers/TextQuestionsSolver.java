@@ -21,7 +21,7 @@ public class TextQuestionsSolver implements InputQuestionSolver {
 
     @Override
     public String solveQuestion(String question) {
-        log.info("Asking LLM question {}", question);
+        log.info("Asking LLM question: {}", question);
         String response= lLMService.askTextResponse(question);
         log.info("Response: {}", response);
         return response;

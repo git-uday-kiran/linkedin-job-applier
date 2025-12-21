@@ -42,13 +42,13 @@ public class RadioQuestionSolver implements QuestionsSolver {
         List<String> optionsText = options.stream()
                 .map(WebElement::getText)
                 .toList();
-        int option = selectOptions(question, optionsText);
+        int option = selectOption(question, optionsText);
         WebElement optionElement = options.get(option).findElement(By.cssSelector("label"));
         shadowRootHelper.click(optionElement);
     }
 
-    public int selectOptions(String question, List<String> options) {
-        log.info("Asking LLM, select option for question {}, options {}", question, options);
+    public int selectOption(String question, List<String> options) {
+        log.info("Asking LLM, select option for question: {}, options: {}", question, options);
         int option = llmService.askSelectOption(question, options);
         log.info("Chosen option: {}", option);
         return option;

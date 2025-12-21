@@ -26,7 +26,7 @@ public class SelectQuestionSolver implements QuestionsSolver {
 
     @Override
     public void solve(ShadowRootHelper shadowRootHelper, WebElement questionLabel, WebElement answerInput) {
-        String question = questionLabel.getText();
+        String question = questionLabel.findElement(By.cssSelector("span")).getText();
         Select select = new Select(answerInput);
         solveQuestion(question, select);
     }
@@ -43,7 +43,7 @@ public class SelectQuestionSolver implements QuestionsSolver {
     }
 
     public int selectOption(String question, List<String> options) {
-        log.info("Asking LLM, select option for question {}, options {}", question, options);
+        log.info("Asking LLM, select option for question: {}, options: {}", question, options);
         int option = lLMService.askSelectOption(question, options);
         log.info("Chosen option: {}", option);
         return option;

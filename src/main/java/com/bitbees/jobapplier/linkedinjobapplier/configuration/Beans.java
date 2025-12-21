@@ -3,6 +3,7 @@ package com.bitbees.jobapplier.linkedinjobapplier.configuration;
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.QuestionsSolver;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
+import dev.langchain4j.model.ollama.OllamaChatModel;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
@@ -48,6 +49,16 @@ public class Beans implements ApplicationContextAware {
     @Bean
     WebDriverWait webDriverWait(WebDriver webDriver) {
         return new WebDriverWait(webDriver, Duration.ofSeconds(20));
+    }
+
+    @Bean
+    OllamaChatModel ollamaChatModel() {
+        return OllamaChatModel.builder()
+                .maxRetries(3)
+                .baseUrl("http://localhost:11434/")
+                .modelName("llama3.2:3b")  // Larger model for better context handling
+                .timeout(Duration.ofSeconds(15))
+                .build();
     }
 
     public static WidGet widGet(ShadowRootHelper shadowRootHelper) {

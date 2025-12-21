@@ -78,10 +78,24 @@ public class Page {
     }
 
     protected WebElement findFirstClickableElement(By locator) {
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
         return webDriver.findElements(locator).stream()
+//                .peek(this::scrollIntoView)
                 .filter(e -> e.isDisplayed() && e.isEnabled())
+                .filter(e -> !isElementObscured(e, js))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Can not find first clickable element of location: " + locator));
+    }
+
+    protected boolean isElementObscured(WebElement element, JavascriptExecutor js) {
+        String script = """
+                const elem = arguments[0];
+                const box = elem.getBoundingClientRect();
+                const cx = box.left + box.width / 2;
+                const cy = box.top + box.height / 2;
+                const topElement = document.elementFromPoint(cx, cy);
+                return topElement !== elem && !elem.contains(topElement);""";
+        return Boolean.parseBoolean(String.valueOf(js.executeScript(script, element)));
     }
 
     protected void pause(Duration duration) {
@@ -145,6 +159,16 @@ public class Page {
                                 "[class*='shimmer']"           // Animated shimmer loading
                 )
         ));
+
+    }
+
+    public void moveElementVerticallyJS(WebElement element, int pixels) {
+        ((JavascriptExecutor) webDriver).executeScript(
+                "arguments[0].style.transform = " +
+                        "`translateY(${(arguments[1])}px)`;",
+                element,
+                pixels
+        );
     }
 
     protected Consumer<Throwable> logError(String message) {

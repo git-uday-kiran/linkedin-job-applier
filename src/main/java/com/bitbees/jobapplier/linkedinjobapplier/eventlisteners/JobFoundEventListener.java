@@ -16,7 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobFoundEventListener extends Page implements ApplicationListener<JobFoundEvent> {
 
-    private static final By EASY_APPLY = By.xpath("//span[text()='Easy Apply']/../..");
+        private static final By EASY_APPLY = By.xpath("//span[text()='Easy Apply']/../..");
+//    private static final By EASY_APPLY = By.xpath("//span[text()='Save']/../../../../following-sibling::div/div//span[text()='Easy Apply']/../..");
     private static final By EASY_APPLY_MODEL = By.cssSelector("div[data-test-modal-id='easy-apply-modal']");
     private static final By DISCARD_APPLICATION = By.xpath("");
     private static final By SHOW_ALL_LOCATION = By.cssSelector(".discovery-templates-vertical-list__footer > a");
@@ -40,12 +41,13 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
 
         try {
             waitForPageReady();
-            var easyApply = waitForElementPresence(EASY_APPLY, 2);
+            var easyApply = waitForElementPresence(By.xpath("//span[text()='Easy Apply']"), 5);
             if (easyApply.isPresent()) {
                 if (!isJobApplicable()) {
                     log.warn("Job is not applicable");
                 }
-                WebElement easyApplyElement = findFirstClickableElement(EASY_APPLY);
+                var easyApplyElement = waitForPresenceAndClickable(EASY_APPLY);
+//                scrollIntoView(easyApplyElement);
                 applyEasyApplyJob(easyApplyElement);
             } else {
                 log.warn("Easy Apply not found.");
