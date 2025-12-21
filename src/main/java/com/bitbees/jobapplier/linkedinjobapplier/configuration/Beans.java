@@ -21,7 +21,7 @@ public class Beans {
         log.info("Loading web driver... ");
         // Firefox installed as snap - profile and binary paths are different
         String profilePath = System.getProperty("user.home") +
-                "/snap/firefox/common/.mozilla/firefox/igs2ldat.uday-kiran-personal";
+                "/snap/firefox/common/.mozilla/firefox/1cft6ho4.uday-kiran-personal";
         String firefoxBinary = "/snap/firefox/current/usr/lib/firefox/firefox";
 
         FirefoxProfile profile = new FirefoxProfile(new File(profilePath));
