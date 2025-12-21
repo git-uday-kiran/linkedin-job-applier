@@ -32,7 +32,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
             throw new IllegalArgumentException("Job found event object is not a JobCard type");
         }
         log.info("Processing the job...");
-        System.out.println("jobLink = " + jobLink);
+        log.info("jobLink = {}", jobLink);
 
         String currentTab = webDriver.getWindowHandle();
         WebDriver newWindowDriver = webDriver.switchTo().newWindow(WindowType.TAB);
@@ -42,6 +42,9 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
             waitForPageReady();
             var easyApply = waitForElementPresence(EASY_APPLY, 2);
             if (easyApply.isPresent()) {
+                if (!isJobApplicable()) {
+                    log.warn("Job is not applicable");
+                }
                 WebElement easyApplyElement = findFirstClickableElement(EASY_APPLY);
                 applyEasyApplyJob(easyApplyElement);
             } else {
@@ -51,6 +54,10 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
             webDriver.close();
             webDriver.switchTo().window(currentTab);
         }
+    }
+
+    private boolean isJobApplicable() {
+        return true;
     }
 
     private void applyEasyApplyJob(WebElement easyApplyElement) {

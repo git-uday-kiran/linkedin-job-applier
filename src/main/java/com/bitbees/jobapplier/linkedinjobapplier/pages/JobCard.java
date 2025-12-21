@@ -10,11 +10,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-
+// Unused, Just kept for the reference in future
 public class JobCard extends Page {
 
     private static final By JOB_DESCRIPTION = By.id("job-details");
-    private static final By EASY_APPLY = By.xpath("//button[.//span[text()='Easy Apply']]");
 
     private String url;
     private String title;
@@ -64,7 +63,6 @@ public class JobCard extends Page {
     public void click() {
         tryClick(jobElement);
 
-//        waitForPageToLoad();
         WebElement loadObserverElement = jobElement.findElement(By.xpath("./div/div"));
         wait.until(ExpectedConditions.attributeToBe(loadObserverElement, "aria-current", "page"));
 
