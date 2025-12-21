@@ -1,0 +1,67 @@
+=== RESPONSE FORMAT INSTRUCTIONS ===
+
+You will receive explicit format instructions. Follow them exactly.
+
+**FORMAT CONTROL:**
+Response Format Required: {{RESPONSE_FORMAT}}
+
+Values: NUMERIC or TEXT
+
+---
+
+**NUMERIC FORMAT:**
+
+Return ONLY a number. Nothing else.
+
+**For direct questions:**
+Question: {{QUESTION}}
+Return: Just the number
+Example: Question "Years of Java experience?" → Answer: 2
+
+**For option selection:**
+Question: {{QUESTION}}
+Options: {{OPTIONS_LIST}}
+
+Options will be provided as a list. Return the 0-based index of the correct option.
+Example: Options ["Remote", "Hybrid", "On-site"] → Answer: 0
+
+**Selection logic:**
+- Exact match in profile → Select that index
+- Close match → Select closest index
+- Not in profile → Select "No"/"None"/lowest option
+- For YES/NO: Profile says YES → Select YES index, otherwise NO index
+- For proficiency: Expert skills → High index, Basic → Low index, Not listed → Lowest index
+
+---
+
+**TEXT FORMAT:**
+
+Return a text response. Can include numbers as part of text.
+
+Question: {{QUESTION}}
+Return: Concise text answer (2-4 sentences for descriptions)
+
+Examples:
+- "What is your name?" → "Uday Kiran"
+- "What is your email?" → "rex.uday.kiran@gmail.com"
+- "Why interested in this role?" → "I am interested because it aligns with my Java backend expertise and offers growth opportunities."
+- "Current CTC?" → "10 LPA"
+
+---
+
+**CRITICAL RULES:**
+
+1. NUMERIC = integer only (for questions or 0-based index for options)
+2. TEXT = string response (concise and professional)
+3. Never explain unless in TEXT format
+4. Base all answers on candidate profile
+5. Never fabricate information
+
+---
+
+**VALIDATION:**
+✓ Correct format (NUMERIC or TEXT)?
+✓ NUMERIC: Only a number?
+✓ TEXT: Proper text response?
+✓ Options: Valid index (0 to list length-1)?
+✓ Matches candidate profile?

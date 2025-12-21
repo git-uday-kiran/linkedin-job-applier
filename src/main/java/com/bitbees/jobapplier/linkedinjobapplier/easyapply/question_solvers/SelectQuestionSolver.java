@@ -1,6 +1,7 @@
 package com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers;
 
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
+import com.bitbees.jobapplier.linkedinjobapplier.services.LLMService;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -12,6 +13,12 @@ import java.util.List;
 @Log4j2
 @Service
 public class SelectQuestionSolver implements QuestionsSolver {
+    private final LLMService lLMService;
+
+    public SelectQuestionSolver(LLMService lLMService) {
+        this.lLMService = lLMService;
+    }
+
     @Override
     public By getQuestionLabelLocation() {
         return By.cssSelector("label[for*='form-component'][for$='multipleChoice']");
@@ -36,9 +43,9 @@ public class SelectQuestionSolver implements QuestionsSolver {
     }
 
     public int selectOption(String question, List<String> options) {
-        System.out.println("question = " + question);
-        System.out.println("question = " + question);
-
-        return 1;
+        log.info("Asking LLM, select option for question {}, options {}", question, options);
+        int option = lLMService.askSelectOption(question, options);
+        log.info("Chosen option: {}", option);
+        return option;
     }
 }

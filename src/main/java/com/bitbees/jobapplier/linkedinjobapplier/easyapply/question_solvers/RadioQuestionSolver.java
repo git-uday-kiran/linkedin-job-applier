@@ -1,6 +1,7 @@
 package com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers;
 
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
+import com.bitbees.jobapplier.linkedinjobapplier.services.LLMService;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -15,9 +16,11 @@ import java.util.List;
 public class RadioQuestionSolver implements QuestionsSolver {
 
     private final WebDriver driver;
+    private final LLMService llmService;
 
-    public RadioQuestionSolver(WebDriver driver) {
+    public RadioQuestionSolver(WebDriver driver, LLMService llmService) {
         this.driver = driver;
+        this.llmService = llmService;
     }
 
     @Override
@@ -45,8 +48,9 @@ public class RadioQuestionSolver implements QuestionsSolver {
     }
 
     public int selectOptions(String question, List<String> options) {
-        System.out.println("question = " + question);
-        System.out.println("options = " + options);
-        return 0;
+        log.info("Asking LLM, select option for question {}, options {}", question, options);
+        int option = llmService.askSelectOption(question, options);
+        log.info("Chosen option: {}", option);
+        return option;
     }
 }
