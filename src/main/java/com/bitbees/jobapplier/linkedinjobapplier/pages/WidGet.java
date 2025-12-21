@@ -1,6 +1,6 @@
 package com.bitbees.jobapplier.linkedinjobapplier.pages;
 
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.InputQuestions;
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.QuestionsSolver;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import io.vavr.control.Try;
@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.time.Duration;
+import java.util.Collection;
 import java.util.Objects;
 
 
@@ -27,20 +28,20 @@ public class WidGet extends Page implements ApplicationContextAware {
     private static final By CONTINUE_APPLYING = By.xpath("//span[text()='Continue applying']");
     private static final By CLOSE_BUTTON = By.xpath("//span[text()='Done']");
 
-    private final InputQuestions inputQuestions;
     private final ShadowRootHelper shadowRootHelper;
+    private final Collection<QuestionsSolver> questionsSolvers;
 
     public WidGet(WebDriver webDriver,
                   WebDriverWait wait,
                   ShadowRootHelper shadowRootHelper,
-                  InputQuestions inputQuestions) {
+                  Collection<QuestionsSolver> questionsSolvers) {
         super(webDriver, wait);
         this.shadowRootHelper = shadowRootHelper;
-        this.inputQuestions = inputQuestions;
+        this.questionsSolvers = questionsSolvers;
     }
 
     public void scan() {
-        inputQuestions.scan(shadowRootHelper);
+        questionsSolvers.forEach(qs -> qs.scan(shadowRootHelper));
     }
 
     public boolean hasNextWidget(ShadowRootHelper shadowRootHelper) {

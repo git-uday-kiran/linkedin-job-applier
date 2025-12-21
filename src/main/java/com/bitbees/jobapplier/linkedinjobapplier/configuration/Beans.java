@@ -1,6 +1,6 @@
 package com.bitbees.jobapplier.linkedinjobapplier.configuration;
 
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.InputQuestions;
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.QuestionsSolver;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
 import lombok.NonNull;
@@ -55,7 +55,7 @@ public class Beans implements ApplicationContextAware {
                 context.getBean(WebDriver.class),
                 context.getBean(WebDriverWait.class),
                 shadowRootHelper,
-                context.getBean(InputQuestions.class)
+                context.getBeansOfType(QuestionsSolver.class).values()
         );
     }
 

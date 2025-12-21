@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
-public class NumericQuestionsSolver implements QuestionsSolver {
+public class NumericQuestionsSolver implements InputQuestionSolver {
     @Override
     public By getQuestionLabelLocation() {
         return By.cssSelector("label[for^='single-line-text-form-component'][for$='numeric']");
@@ -14,6 +14,7 @@ public class NumericQuestionsSolver implements QuestionsSolver {
 
     @Override
     public String solveQuestion(String question) {
+        System.out.println("question = " + question);
         return "0";
     }
 }
