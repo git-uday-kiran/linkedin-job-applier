@@ -1,7 +1,7 @@
 package com.bitbees.jobapplier.linkedinjobapplier.services;
 
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.enums.*;
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.configuration.EasyApplyFilter;
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.enums.*;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.Optional;
+import java.util.List;
 
 @Log4j2
 @Service
@@ -46,8 +46,8 @@ public class EasyApplyService extends Page {
 
         filter.getLocations().stream()
                 .map(Location::getLocation)
-                .map(this::tryFindElement)
-                .flatMap(Optional::stream)
+                .map(webDriver::findElements)
+                .flatMap(List::stream)
                 .forEach(this::click);
 
         if (filter.getUnder10Applicants() == Under10Applicants.ENABLE) {
