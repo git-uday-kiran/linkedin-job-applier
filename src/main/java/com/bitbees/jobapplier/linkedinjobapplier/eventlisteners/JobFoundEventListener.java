@@ -44,7 +44,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
 
         try {
             waitForPageReady();
-            var easyApply = waitForElementPresence(By.xpath("//span[text()='Easy Apply']"), 5);
+            var easyApply = waitForElementPresence(EASY_APPLY, 2);
             if (easyApply.isPresent()) {
                 if (!isJobApplicable()) {
                     return;
