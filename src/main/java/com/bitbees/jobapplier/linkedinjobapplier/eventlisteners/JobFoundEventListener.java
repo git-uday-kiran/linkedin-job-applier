@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobFoundEventListener extends Page implements ApplicationListener<JobFoundEvent> {
 
-        private static final By EASY_APPLY = By.xpath("//span[text()='Easy Apply']/../..");
-//    private static final By EASY_APPLY = By.xpath("//span[text()='Save']/../../../../following-sibling::div/div//span[text()='Easy Apply']/../..");
+    private static final By EASY_APPLY = By.xpath("//span[text()='Easy Apply']/../..");
+    //    private static final By EASY_APPLY = By.xpath("//span[text()='Save']/../../../../following-sibling::div/div//span[text()='Easy Apply']/../..");
     private static final By EASY_APPLY_MODEL = By.cssSelector("div[data-test-modal-id='easy-apply-modal']");
     private static final By DISCARD_APPLICATION = By.xpath("");
     private static final By SHOW_ALL_LOCATION = By.cssSelector(".discovery-templates-vertical-list__footer > a");
@@ -47,7 +47,6 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
                     log.warn("Job is not applicable");
                 }
                 var easyApplyElement = waitForPresenceAndClickable(EASY_APPLY);
-//                scrollIntoView(easyApplyElement);
                 applyEasyApplyJob(easyApplyElement);
             } else {
                 log.warn("Easy Apply not found.");
@@ -72,7 +71,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
         WidGet widGet = Beans.widGet(shadowRootHelper);
 
         shadowRootHelper.waitForPresence(EASY_APPLY_MODEL);
-        System.out.println("Widget scanning....");
+        log.info("Widget scanning....");
         do {
             widGet.scan();
         } while (widGet.hasNextWidget(shadowRootHelper));

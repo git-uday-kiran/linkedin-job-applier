@@ -1,5 +1,6 @@
 package com.bitbees.jobapplier.linkedinjobapplier.services;
 
+import com.bitbees.jobapplier.linkedinjobapplier.utils.LLMUtil;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.SystemMessage;
@@ -23,36 +24,35 @@ public class LLMService {
     private final ChatModel chatModel;
     private final String profileContext;
     private final String questionSolvingContext;
-
+    private final String jobSuitableContext;
 
     public LLMService(ChatModel chatModel,
                       @Value("classpath:profile-context.txt") Resource profileContextResource,
-                      @Value("classpath:question-solving-context.txt") Resource questionSolvingContextResource
+                      @Value("classpath:question-solving-context.txt") Resource questionSolvingContextResource,
+                      @Value("classpath:job-suitable-context.txt") Resource jobSuitableContextResource
     ) {
         this.chatModel = chatModel;
         profileContext = Try.ofCallable(() -> Files.readString(profileContextResource.getFilePath(), StandardCharsets.UTF_8)).getOrNull();
         questionSolvingContext = Try.ofCallable(() -> Files.readString(questionSolvingContextResource.getFilePath(), StandardCharsets.UTF_8)).getOrNull();
-        System.out.println("profileContext = " + profileContext);
-        System.out.println("questionSolvingContext = " + questionSolvingContext);
+        jobSuitableContext = Try.ofCallable(() -> Files.readString(jobSuitableContextResource.getFilePath(), StandardCharsets.UTF_8)).getOrNull();
     }
 
     public String askTextResponse(String question) {
-        String prompt = getPrompt(question, "TEXT");
-        return askLLM(prompt);
+        String prompt = LLMUtil.getPrompt(question, "TEXT");
+        return askLLMQuestion(prompt);
     }
 
     public Double askNumericResponse(String question) {
-        String prompt = getPrompt(question, "NUMERIC");
-        return Double.valueOf(askLLM(prompt));
+        String prompt = LLMUtil.getPrompt(question, "NUMERIC");
+        return Double.valueOf(askLLMQuestion(prompt));
     }
 
     public int askSelectOption(String question, List<String> options) {
-        String prompt = getPrompt(question, options);
-        System.out.println("prompt = " + prompt);
-        String response = askLLM(prompt).trim();
+        String prompt = LLMUtil.getPrompt(question, options);
+        String response = askLLMQuestion(prompt).trim();
 
         // Extract just the number from the response (handles cases where LLM adds extra text)
-        String numberOnly = response.replaceAll("[^0-9]", "");
+        String numberOnly = response.replaceAll("\\D", "");
 
         if (numberOnly.isEmpty()) {
             log.error("LLM did not return a valid number. Response: {}", response);
@@ -70,56 +70,49 @@ public class LLMService {
         return selectedOption;
     }
 
-    private String askLLM(String prompt) {
+    public boolean askJobIsSuitable(String jobDescription) {
+        String combinedSystemContext = profileContext + "\n\n" + jobSuitableContext;
+        String prompt = "Job Description: \n\n" + jobDescription;
+
+        String aiResponse = askLLM(combinedSystemContext, prompt);
+
+        if (aiResponse.startsWith("Yes")) {
+            log.info("Job is suitable");
+            return true;
+        }
+        if (aiResponse.startsWith("No")) {
+            int reasonStartIndex = aiResponse.indexOf("Reason: ");
+            if (reasonStartIndex < 0) {
+                throw new IllegalStateException("LLM did not return a response for job not suitable response. LLM Response: " + aiResponse);
+            }
+            String reason = aiResponse.substring(reasonStartIndex + 8);
+            log.info("Job is not suitable, Reason: {}", reason);
+            return false;
+        }
+        throw new IllegalStateException("LLM did not return a valid job suitable decision. LLM Response: " + aiResponse);
+    }
+
+
+    private String askLLMQuestion(String prompt) {
         // Combine both contexts into a single system message for better model understanding
         // Profile context first (knowledge base), then instructions (how to use it)
         String combinedSystemContext = profileContext + "\n\n" + questionSolvingContext;
 
-        log.info("System context length: {} chars", combinedSystemContext.length());
-        log.info("System context first 500 chars: {}", combinedSystemContext.substring(0, Math.min(500, combinedSystemContext.length())));
-        log.info("User prompt: {}", prompt);
+        log.debug("System context length: {} chars", combinedSystemContext.length());
+        log.debug("System context first 500 chars: {}", combinedSystemContext.substring(0, Math.min(500, combinedSystemContext.length())));
+        log.debug("User prompt: {}", prompt);
 
+        return askLLM(combinedSystemContext, prompt);
+    }
+
+    private String askLLM(String systemContext, String prompt) {
         List<ChatMessage> chats = List.of(
-                SystemMessage.systemMessage(combinedSystemContext),
+                SystemMessage.systemMessage(systemContext),
                 UserMessage.userMessage(prompt)
         );
-
         ChatResponse chatResponse = chatModel.chat(chats);
         AiMessage aiMessage = chatResponse.aiMessage();
-
         log.info("LLM Response: {}", aiMessage.text());
         return aiMessage.text();
-    }
-
-    private static String getPrompt(String question, String responseFormat) {
-        return """
-                You are filling out a job application form. Answer this question about yourself using your profile:
-
-                Question: %s
-                Response Format Required: %s
-
-                Answer:""".formatted(question, responseFormat);
-    }
-
-    private static String getPrompt(String question, List<String> options) {
-        StringBuilder optionsText = new StringBuilder();
-        for (int i = 1; i < options.size(); i++) {
-            optionsText.append(i).append(": ").append(options.get(i)).append("\n");
-        }
-
-        int maxIndex = options.size() - 1;
-        String rangeText = maxIndex == 1 ? "1" : "1-" + maxIndex;
-
-        return """
-                You are filling out a job application form. Select the option that matches YOUR profile information.
-
-                Question: %s
-
-                Available Options:
-                %s
-                Respond with ONLY the number (%s) of the option that matches YOUR profile.
-                Do not explain. Just return the number.
-
-                Your answer:""".formatted(question, optionsText.toString().trim(), rangeText);
     }
 }
