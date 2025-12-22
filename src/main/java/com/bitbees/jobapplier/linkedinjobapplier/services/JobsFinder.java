@@ -40,6 +40,7 @@ public class JobsFinder extends Page implements ApplicationContextAware {
         for (int page = 1; page <= 100; page++) {
             List<WebElement> jobs = getNewJobs();
             jobs.stream()
+                    .peek(this::click)
                     .filter(not(this::isAlreadyApplied))
                     .filter(not(this::skip))
                     .map(this::getJobUrl)
@@ -58,7 +59,11 @@ public class JobsFinder extends Page implements ApplicationContextAware {
 
     private boolean skip(WebElement element) {
         boolean viewed = element.getText().toLowerCase().contains("viewed");
-        return viewed && config.isSkipViewedJobs();
+        boolean shouldSkip = viewed && config.isSkipViewedJobs();
+        if (shouldSkip) {
+            log.info("Job is viewed");
+        }
+        return shouldSkip;
     }
 
     private String getJobUrl(WebElement jobCardElement) {
