@@ -505,3 +505,11 @@ When asked about teamwork:
 - Show stability and commitment (mention long-term goals if relevant)
 
 Remember: Accuracy is paramount. When in doubt, be conservative and honest rather than overselling.
+
+**IMPORTANT NOTE ABOUT NUMERIC VALUES:**
+When a field is marked as NUMERIC, it can accept both whole numbers (integers) and decimal numbers (floating-point values).
+Examples:
+- Years of experience: 2 (whole number) or 2.5 (decimal)
+- CGPA: 7.73 (decimal)
+- Salary in LPA: 10 (whole number) or 10.5 (decimal)
+- Rating: 4 (whole number) or 4.5 (decimal)
