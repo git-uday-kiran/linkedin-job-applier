@@ -42,7 +42,6 @@ public class JobsFinder extends Page implements ApplicationContextAware {
             jobs.stream()
                     .filter(not(this::isAlreadyApplied))
                     .filter(not(this::skip))
-                    .map(this::click)
                     .map(this::getJobUrl)
                     .map(JobFoundEvent::new)
                     .forEach(ctx::publishEvent);
@@ -55,27 +54,26 @@ public class JobsFinder extends Page implements ApplicationContextAware {
 
     private boolean isAlreadyApplied(WebElement element) {
         return doUntilSuccess(() -> {
-
-            boolean applied = element.getText().toLowerCase().contains("applied");
+            String jobCardText = element.getText().toLowerCase();
+            boolean applied = jobCardText.contains("applied");
             if (applied) {
-                log.info("Job already applied");
+                log.info("Job already applied, jobCardText: {}", jobCardText.replace('\n', ' '));
             }
             return applied;
-
         }, Duration.ofSeconds(15));
     }
 
     private boolean skip(WebElement element) {
-        boolean viewed = element.getText().toLowerCase().contains("viewed");
+        String jobCardText = element.getText().toLowerCase();
+        boolean viewed = jobCardText.contains("viewed");
         boolean shouldSkip = viewed && config.isSkipViewedJobs();
         if (shouldSkip) {
-            log.info("Job is viewed");
+            log.info("Job is viewed, jobCardText: {}", jobCardText.replace('\n', ' '));
         }
         return shouldSkip;
     }
 
     private String getJobUrl(WebElement jobCardElement) {
-        scrollIntoView(jobCardElement);
         click(jobCardElement);
         pause(Duration.ofSeconds(1));
         WebElement element = jobCardElement.findElement(By.xpath(".//a"));
