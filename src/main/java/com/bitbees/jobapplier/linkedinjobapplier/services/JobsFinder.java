@@ -53,11 +53,11 @@ public class JobsFinder extends Page implements ApplicationContextAware {
     }
 
     private boolean isAlreadyApplied(WebElement element) {
-        return element.getText().contains("Applied");
+        return element.getText().toLowerCase().contains("applied");
     }
 
     private boolean skip(WebElement element) {
-        boolean viewed = element.getText().contains("Viewed");
+        boolean viewed = element.getText().toLowerCase().contains("viewed");
         return viewed && config.isSkipViewedJobs();
     }
 
