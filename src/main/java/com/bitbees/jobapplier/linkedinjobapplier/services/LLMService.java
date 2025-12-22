@@ -106,13 +106,14 @@ public class LLMService {
     }
 
     private String askLLM(String systemContext, String prompt) {
+        log.info("Asking LLM, Prompt: {}", prompt.replace('\n', ' '));
         List<ChatMessage> chats = List.of(
                 SystemMessage.systemMessage(systemContext),
                 UserMessage.userMessage(prompt)
         );
         ChatResponse chatResponse = chatModel.chat(chats);
         AiMessage aiMessage = chatResponse.aiMessage();
-        log.info("LLM Response: {}", aiMessage.text());
+        log.info("LLM Response: {}", aiMessage.text().replace('\n', ' '));
         return aiMessage.text();
     }
 }

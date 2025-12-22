@@ -14,6 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,6 +63,8 @@ public class JobsFinder extends Page implements ApplicationContextAware {
 
     private String getJobUrl(WebElement jobCardElement) {
         scrollIntoView(jobCardElement);
+        click(jobCardElement);
+        pause(Duration.ofSeconds(1));
         WebElement element = jobCardElement.findElement(By.xpath(".//a"));
         return element.getAttribute("href");
     }

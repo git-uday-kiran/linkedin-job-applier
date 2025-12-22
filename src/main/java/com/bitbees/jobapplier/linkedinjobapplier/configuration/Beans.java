@@ -53,26 +53,26 @@ public class Beans implements ApplicationContextAware {
         return new WebDriverWait(webDriver, Duration.ofSeconds(20));
     }
 
-//    @Bean
+    @Bean
     OllamaChatModel ollamaChatModel() {
         return OllamaChatModel.builder()
                 .maxRetries(3)
                 .baseUrl("http://localhost:11434/")
-                .modelName("llama3.2:3b")  // Larger model for better context handling
-                .timeout(Duration.ofSeconds(15))
+                .modelName("gemini-3-flash-preview")  // Larger model for better context handling
+                .timeout(Duration.ofSeconds(60))
                 .build();
     }
 
-//    @Bean
+    //    @Bean
     OpenAiChatModel openAiChatModel() {
         return OpenAiChatModel.builder()
                 .baseUrl("https://openrouter.ai/api/v1")
-                .modelName("x-ai/grok-4.1-fast")
+                .modelName("google/gemini-2.0-flash-exp:free")
                 .apiKey("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")
                 .build();
     }
 
-    @Bean
+    //    @Bean
     GoogleAiGeminiChatModel googleAiGeminiChatModel() {
         return GoogleAiGeminiChatModel.builder()
                 .modelName("gemini-2.5-flash")
