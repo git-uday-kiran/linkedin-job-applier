@@ -59,6 +59,8 @@ public class Beans implements ApplicationContextAware {
                 .maxRetries(3)
                 .baseUrl("http://localhost:11434/")
                 .modelName("gemini-3-flash-preview")  // Larger model for better context handling
+                .think(false)
+                .temperature(0.0D)
                 .timeout(Duration.ofSeconds(60))
                 .build();
     }

@@ -46,7 +46,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
             waitForPageReady();
             var easyApply = waitForElementPresence(EASY_APPLY, 2);
             if (easyApply.isPresent()) {
-                if (!isJobApplicable()) {
+                if (!isJobSuitable()) {
                     return;
                 }
                 var easyApplyElement = waitForPresenceAndClickable(EASY_APPLY);
@@ -60,7 +60,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
         }
     }
 
-    private boolean isJobApplicable() {
+    private boolean isJobSuitable() {
         By jobCardLocation = By.xpath("//main/div/div/div/div/div/div/div/div/div/div/div/div");
         By aboutTheJobLocation = By.xpath("//div[contains(normalize-space(.), 'About the job') and @data-display-contents='true']/div[not(@data-testid)]");
 
@@ -75,7 +75,6 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
 
         String jobDescription = jobCardText + "\n\n" + aboutTheJobText;
         return lLMService.askJobIsSuitable(jobDescription);
-//        return true;
     }
 
     private void applyEasyApplyJob(WebElement easyApplyElement) {
