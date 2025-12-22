@@ -16,12 +16,15 @@ public final class LLMUtil {
 
     public static String getPrompt(String question, List<String> options) {
         StringBuilder optionsText = new StringBuilder();
-        for (int i = 1; i < options.size(); i++) {
-            optionsText.append(i).append(": ").append(options.get(i)).append("\n");
+        for (int i = 0; i < options.size(); i++) {
+            optionsText
+                    .append(i).append(": ")
+                    .append("\"").append(options.get(i)).append("\"")
+                    .append("\n");
         }
 
         int maxIndex = options.size() - 1;
-        String rangeText = maxIndex == 1 ? "1" : "1-" + maxIndex;
+        String rangeText = maxIndex == 0 ? "0" : "0-" + maxIndex;
 
         return """
                 You are filling out a job application form. Select the option that matches YOUR profile information.

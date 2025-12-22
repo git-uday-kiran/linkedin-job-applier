@@ -48,6 +48,7 @@ public class EasyApplyService extends Page {
                 .map(Location::getLocation)
                 .map(webDriver::findElements)
                 .flatMap(List::stream)
+                .filter(WebElement::isDisplayed)
                 .forEach(this::click);
 
         if (filter.getUnder10Applicants() == Under10Applicants.ENABLE) {
