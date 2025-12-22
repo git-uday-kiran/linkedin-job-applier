@@ -55,7 +55,7 @@ public class WidGet extends Page implements ApplicationContextAware {
             return true;
         }
         pause(Duration.ofSeconds(3));
-        doUntilSuccess(() -> tryClickDismiss(shadowRootHelper));
+        doUntilSuccess(() -> tryClickDismiss(shadowRootHelper), Duration.ofSeconds(60));
         return false;
     }
 

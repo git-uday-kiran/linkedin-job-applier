@@ -40,9 +40,9 @@ public class JobsFinder extends Page implements ApplicationContextAware {
         for (int page = 1; page <= 100; page++) {
             List<WebElement> jobs = getNewJobs();
             jobs.stream()
-                    .peek(this::click)
                     .filter(not(this::isAlreadyApplied))
                     .filter(not(this::skip))
+                    .map(this::click)
                     .map(this::getJobUrl)
                     .map(JobFoundEvent::new)
                     .forEach(ctx::publishEvent);
@@ -54,11 +54,15 @@ public class JobsFinder extends Page implements ApplicationContextAware {
     }
 
     private boolean isAlreadyApplied(WebElement element) {
-        boolean applied = element.getText().toLowerCase().contains("applied");
-        if (applied) {
-            log.info("Job already applied");
-        }
-        return applied;
+        return doUntilSuccess(() -> {
+
+            boolean applied = element.getText().toLowerCase().contains("applied");
+            if (applied) {
+                log.info("Job already applied");
+            }
+            return applied;
+
+        }, Duration.ofSeconds(15));
     }
 
     private boolean skip(WebElement element) {

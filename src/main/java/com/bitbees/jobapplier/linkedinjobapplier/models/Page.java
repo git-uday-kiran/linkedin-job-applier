@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 @Log4j2
@@ -30,7 +31,7 @@ public class Page {
         return elements.isEmpty() ? Optional.empty() : Optional.of(elements.getFirst());
     }
 
-    protected void click(WebElement element) {
+    protected WebElement click(WebElement element) {
         String clicked = element.getText().replace('\n', ' ');
         if (clicked.isEmpty()) {
             clicked = element.getAccessibleName();
@@ -39,12 +40,27 @@ public class Page {
         scrollIntoView(element);
         WebElement clickableElement = waitForClickable(element);
         highlight(clickableElement);
-        clickableElement.click();
+        doUntilSuccess(clickableElement::click, Duration.ofSeconds(5));
         log.info("Clicked: {}", clicked);
+        return clickableElement;
     }
 
-    public void doUntilSuccess(CheckedRunnable action) {
-        while (Try.run(action).isFailure()) ;
+    public <T> T doUntilSuccess(Callable<T> action, Duration timeout) {
+        long startTime = System.currentTimeMillis();
+        while (Duration.ofMillis(System.currentTimeMillis() - startTime).compareTo(timeout) < 0) {
+            Try<T> result = Try.ofCallable(action);
+            if (result.isSuccess()) {
+                return result.get();
+            }
+        }
+        throw new IllegalStateException("Given action is not successful");
+    }
+
+    public void doUntilSuccess(CheckedRunnable action, Duration timeout) {
+        long startTime = System.currentTimeMillis();
+        while ((Duration.ofMillis(System.currentTimeMillis() - startTime).compareTo(timeout) < 0)
+                && Try.run(action).isFailure()) {
+        }
     }
 
     public void tryClick(WebElement element) {
