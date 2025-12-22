@@ -74,7 +74,8 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
         log.debug("aboutTheJobText = {}", aboutTheJobText);
 
         String jobDescription = jobCardText + "\n\n" + aboutTheJobText;
-        return lLMService.askJobIsSuitable(jobDescription);
+//        return lLMService.askJobIsSuitable(jobDescription);
+        return true;
     }
 
     private void applyEasyApplyJob(WebElement easyApplyElement) {

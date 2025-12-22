@@ -63,7 +63,7 @@ public class LLMService {
 
         // Validate the option is within bounds
         if (selectedOption < 0 || selectedOption >= options.size()) {
-            log.warn("LLM returned out-of-bounds option: {}. Defaulting to 0. Options size: {}", selectedOption, options.size());
+            log.warn("LLM returned out-of-bounds option: {}", selectedOption);
             throw new IllegalStateException("LLM did not return a valid number. Response: " + response);
         }
 

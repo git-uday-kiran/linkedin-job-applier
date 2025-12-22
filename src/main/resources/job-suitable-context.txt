@@ -13,6 +13,25 @@ Reason: [Brief reason]
 
 ---
 
+**IMPORTANT: MANDATORY vs OPTIONAL SKILLS**
+
+Only reject jobs for missing MANDATORY skills. Ignore optional skills completely.
+
+MANDATORY skills are stated as:
+- "Required", "Must have", "Should have"
+- Listed under "Requirements" or "Qualifications"
+- No qualifier words
+
+OPTIONAL skills use phrases like:
+- "Plus", "Bonus", "Nice to have", "Preferred", "Good to have"
+- "Familiarity with", "Exposure to", "Knowledge of... advantageous"
+
+Example:
+"Required: Java, Spring Boot. Docker knowledge is a plus"
+→ Evaluate ONLY Java and Spring Boot. IGNORE Docker completely.
+
+---
+
 **REJECT (Answer "No") if job requires:**
 - Frontend, Full-stack, or UI/UX work
 - Primary language other than Java (Python, Node.js, Go, etc.)
@@ -39,8 +58,8 @@ Reason: [Brief reason]
 1. Check deal-breakers: company size, location, shift, role type
 2. Check experience (reject if > 4 years)
 3. Check primary tech (must be Java backend)
-4. Check skill match (need 80%+)
-5. Ignore nice-to-have skills
+4. Check MANDATORY skills only (need 80%+ match)
+5. IGNORE optional/nice-to-have skills completely
 
 **REASON FORMAT (brief):**
 - "Requires frontend development"
@@ -50,6 +69,21 @@ Reason: [Brief reason]
 - "US time zone required"
 - "Full-stack role"
 - "Requires Docker/Kubernetes"
+
+---
+
+**OPTIONAL SKILL INDICATORS (IGNORE THESE):**
+These phrases mean the skill is NOT mandatory - DO NOT reject for missing these:
+- "is a plus"
+- "is a bonus"
+- "nice to have"
+- "preferred"
+- "good to have"
+- "familiarity with"
+- "exposure to"
+- "knowledge of... would be advantageous"
+
+Example: "Experience in Scala is a plus" → IGNORE Scala requirement completely
 
 ---
 
@@ -74,12 +108,22 @@ Response:
 No
 Reason: Primary language is Python
 
+Job: "Java Backend Developer, 3 years, Spring Boot, MySQL, Docker knowledge is a plus, Bangalore, 1000+ employees"
+Response:
+Yes
+
+Job: "Java Developer, 2 years, Spring Boot, AWS, experience in Kubernetes is a bonus, Mumbai, 800 employees"
+Response:
+Yes
+
 ---
 
 **CRITICAL RULES:**
 1. First line MUST be "Yes" or "No"
 2. If "No", second line MUST be "Reason: [text]"
-3. Be strict on deal-breakers
-4. Be lenient on nice-to-have skills
-5. Bangalore and Bengaluru are the same city
-6. Do not validate job description locations against job posting location
+3. Be strict on deal-breakers (company size, location, experience, role type)
+4. COMPLETELY IGNORE optional skills ("plus", "bonus", "nice to have", "preferred")
+5. Only evaluate MANDATORY requirements - reject only if missing critical skills
+6. Bangalore and Bengaluru are the same city
+7. Do not validate job description locations against job posting location
+

@@ -97,10 +97,10 @@ public class Beans implements ApplicationContextAware {
                 .maxRetries(1)
                 .build();
 
-        providers.add(groqModel);
+//        providers.add(groqModel);
         providers.add(geminiModel);
-        providers.add(openRouterModel);
-        providers.add(ollamaModel);
+//        providers.add(openRouterModel);
+//        providers.add(ollamaModel);
 
         log.info("Successfully initialized {} API providers", providers.size());
         return new RotatingChatModel(providers, chatModelTimeout.multipliedBy(providers.size()));

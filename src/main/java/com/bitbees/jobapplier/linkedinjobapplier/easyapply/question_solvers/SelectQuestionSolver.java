@@ -21,7 +21,7 @@ public class SelectQuestionSolver implements QuestionsSolver {
 
     @Override
     public By getQuestionLabelLocation() {
-        return By.cssSelector("label[for*='form-component'][for$='multipleChoice']");
+        return By.cssSelector("label[for*='text-entity-list-form-component-formElement']");
     }
 
     @Override

@@ -27,16 +27,29 @@ public final class LLMUtil {
         String rangeText = maxIndex == 0 ? "0" : "0-" + maxIndex;
 
         return """
-                You are filling out a job application form. Select the option that matches YOUR profile information.
-                
+                Select the option index (%s) that matches the candidate profile.
+
                 Question: %s
-                
-                Available Options:
+
+                Options:
                 %s
-                Respond with ONLY the number (%s) of the option that matches YOUR profile.
-                Do not explain. Just return the number.
-                
-                Your answer:""".formatted(question, optionsText.toString().trim(), rangeText);
+
+                RESPONSE FORMAT - YOU MUST FOLLOW EXACTLY:
+                - Return ONLY the index number: %s
+                - NO explanations
+                - NO reasoning
+                - NO text before or after the number
+                - NO country codes, phone numbers, or any other numbers
+                - Just the single digit index
+
+                WRONG: "Based on profile, +91, so 1" ❌
+                WRONG: "1 because it matches" ❌
+                WRONG: "The answer is 1" ❌
+                CORRECT: "1" ✓
+
+                If option 0 is a placeholder like "Select an option", skip it.
+
+                Answer:""".formatted(rangeText, question, optionsText.toString().trim(), rangeText);
     }
 
     private LLMUtil() {

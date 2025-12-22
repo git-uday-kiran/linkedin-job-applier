@@ -16,13 +16,13 @@ public class TextQuestionsSolver implements InputQuestionSolver {
 
     @Override
     public By getQuestionLabelLocation() {
-        return By.cssSelector("label[for^='single-line-text-form-component'][for$='text']");
+        return By.cssSelector("label[for^='single-line-text-form-component'], label[for^='single-typeahead-entity-form']");
     }
 
     @Override
     public String solveQuestion(String question) {
         log.info("Asking LLM question: {}", question);
-        String response= lLMService.askTextResponse(question);
+        String response = lLMService.askTextResponse(question);
         log.info("Response: {}", response);
         return response;
     }
