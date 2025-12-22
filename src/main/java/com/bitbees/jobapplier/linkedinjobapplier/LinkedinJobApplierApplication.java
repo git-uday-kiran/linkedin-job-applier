@@ -41,7 +41,7 @@ public class LinkedinJobApplierApplication {
 
     @EventListener(ApplicationStartedEvent.class)
     void jobFoundEvent(ApplicationStartedEvent event) {
-        String url = "https://www.linkedin.com/jobs/view/4339190494/?eBP=NOT_ELIGIBLE_FOR_CHARGING&trk=flagship3_jobs_discovery_jymbii&refId=dBKwPOggVqnAtrdz5u8P3A%3D%3D&trackingId=xwlZIIJN7L3f4s0J0W%2BFFQ%3D%3D";
+        String url = "https://www.linkedin.com/jobs/view/4325194567/?eBP=CwEAAAGbRJAvTdAk10pOEGVe9MGfWgC15MXN_xqIPjqRixGJq6Owz0QqRaoq_8Dk4DBWgDCvzVg_C7l3zsa1smYG7dG8qIwPjBulgI2LZQ6v99mYP05XN0vXbv1Un053Tv2luUF4sH9-EQV4LTI-cLcWeJNrwH8Zc6AG_YRtI6ZbmgcHhy6G7N2pL732EePDeRp-8dnNZ38wCpao4jlfi0dlW3VQkJ8Czf2_gmo6inwoE_RHm-Xhwd2eC7z9Y42IRB37LOFpwN2CK4HlqklNdIVDzgOXP6rmg4c6imZ5z3EvT9TYbvCXioBdeMkGey5dCLC9XtK9PezyE99SSuit2Z08OaQjPFXuRUImF6-WlIYZV_J1nsd_LSov_P1l0ahQtQ9pOf-p4FtrUPt8TDXujPIw39fQyueG37EqcQXBHi5DsdkUEV7Lg10IHFe4r3_5LLuwM0x3Nt8U8qGJIPGGq51PwmUQltjUgA16ufEIhU42i3sTWnU&trk=flagship3_jobs_discovery_jymbii&refId=YmW1bFm2JDNQEeoKoanAwQ%3D%3D&trackingId=pUYhpNQa1Gvbf35aOS6Peg%3D%3D";
         ConfigurableApplicationContext context = event.getApplicationContext();
         context.publishEvent(new JobFoundEvent(url));
     }

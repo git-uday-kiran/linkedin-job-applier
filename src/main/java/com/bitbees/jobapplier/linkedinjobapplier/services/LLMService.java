@@ -112,7 +112,7 @@ public class LLMService {
         );
         ChatResponse chatResponse = chatModel.chat(chats);
         AiMessage aiMessage = chatResponse.aiMessage();
-        log.info("LLM Response: {}", aiMessage.text());
+        log.debug("LLM Response: {}", aiMessage.text());
         return aiMessage.text();
     }
 }

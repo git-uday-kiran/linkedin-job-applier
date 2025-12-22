@@ -5,6 +5,7 @@ import com.bitbees.jobapplier.linkedinjobapplier.events.JobFoundEvent;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
+import com.bitbees.jobapplier.linkedinjobapplier.services.LLMService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.*;
@@ -22,9 +23,11 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
     private static final By DISCARD_APPLICATION = By.xpath("");
     private static final By SHOW_ALL_LOCATION = By.cssSelector(".discovery-templates-vertical-list__footer > a");
     public static final By SHADOW_PARENT_LOCATION = By.xpath("//div[@id='interop-outlet']");
+    private final LLMService lLMService;
 
-    protected JobFoundEventListener(WebDriver webDriver, WebDriverWait wait) {
+    protected JobFoundEventListener(WebDriver webDriver, WebDriverWait wait, LLMService lLMService) {
         super(webDriver, wait);
+        this.lLMService = lLMService;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
             var easyApply = waitForElementPresence(By.xpath("//span[text()='Easy Apply']"), 5);
             if (easyApply.isPresent()) {
                 if (!isJobApplicable()) {
-                    log.warn("Job is not applicable");
+                    return;
                 }
                 var easyApplyElement = waitForPresenceAndClickable(EASY_APPLY);
                 applyEasyApplyJob(easyApplyElement);
@@ -58,7 +61,21 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
     }
 
     private boolean isJobApplicable() {
-        return true;
+        By jobCardLocation = By.xpath("//main/div/div/div/div/div/div/div/div/div/div/div/div");
+        By aboutTheJobLocation = By.xpath("//div[contains(normalize-space(.), 'About the job') and @data-display-contents='true']/div[not(@data-testid)]");
+
+        WebElement jobCard = webDriver.findElement(jobCardLocation);
+        WebElement aboutTheJob = webDriver.findElement(aboutTheJobLocation);
+
+        String jobCardText = jobCard.getAttribute("textContent");
+        String aboutTheJobText = aboutTheJob.getAttribute("textContent");
+
+        System.out.println("jobCardText = " + jobCardText);
+        System.out.println("aboutTheJobText = " + aboutTheJobText);
+
+        String jobDescription = jobCardText + "\n\n" + aboutTheJobText;
+        return lLMService.askJobIsSuitable(jobDescription);
+//        return true;
     }
 
     private void applyEasyApplyJob(WebElement easyApplyElement) {
