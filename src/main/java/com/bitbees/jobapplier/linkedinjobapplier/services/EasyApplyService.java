@@ -5,6 +5,7 @@ import com.bitbees.jobapplier.linkedinjobapplier.easyapply.enums.*;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -54,6 +55,20 @@ public class EasyApplyService extends Page {
         if (filter.getUnder10Applicants() == Under10Applicants.ENABLE) {
             findAndClick(filter.getUnder10Applicants().getLocation());
         }
+
+        By locationDistance = By.cssSelector(".artdeco-slider__container input#distance-advanced-filter-slider");
+        WebElement slider = webDriver.findElement(locationDistance);
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        js.executeScript("""
+                        arguments[0].value = arguments[1];
+                        arguments[0].dispatchEvent(new Event('input', { bubbles: true }));
+                        arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
+                        """,
+                slider,
+                50
+        );
+
+        pause(Duration.ofSeconds(10));
 
         By applyFilterLocation = By.xpath("//div[contains(@class, 'search-reusables__side-panel--open')]//button/span[contains(., 'Show')]");
         WebElement applyFilter = waitForPresenceAndClickable(applyFilterLocation);

@@ -21,7 +21,7 @@ Reason: [Brief reason why not suitable]
 
 **MUST REJECT (Answer "No") if job requires:**
 - Frontend development, Full-stack development, or UI/UX work
-- Technologies NOT in profile: Docker, Kubernetes, Redis, PostgreSQL, TDD
+- Technologies NOT in profile: Kubernetes
 - Work location outside India (unless remote with IST hours)
 - US/EU time zone shifts or night shifts
 - Company size less than 500 employees
