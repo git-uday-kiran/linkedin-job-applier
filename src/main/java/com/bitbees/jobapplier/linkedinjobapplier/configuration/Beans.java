@@ -3,6 +3,7 @@ package com.bitbees.jobapplier.linkedinjobapplier.configuration;
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.QuestionsSolver;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
@@ -21,6 +22,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 @Configuration
@@ -54,32 +57,53 @@ public class Beans implements ApplicationContextAware {
     }
 
     @Bean
-    OllamaChatModel ollamaChatModel() {
-        return OllamaChatModel.builder()
-                .maxRetries(3)
-                .baseUrl("http://localhost:11434/")
-                .modelName("gemini-3-flash-preview")  // Larger model for better context handling
-                .think(false)
-                .temperature(0.0D)
-                .timeout(Duration.ofSeconds(60))
-                .build();
-    }
+    ChatModel chatModel() {
+        log.info("Initializing rotating chat model with multiple API providers...");
 
-    //    @Bean
-    OpenAiChatModel openAiChatModel() {
-        return OpenAiChatModel.builder()
+        List<ChatModel> providers = new ArrayList<>();
+        Duration chatModelTimeout = Duration.ofSeconds(5);
+
+        ChatModel groqModel = OpenAiChatModel.builder()
+                .baseUrl("https://api.groq.com/openai/v1")
+                .modelName("llama-3.1-8b-instant")
+                .apiKey(System.getenv("GROQ_API_KEY"))
+                .timeout(chatModelTimeout)
+                .maxRetries(1)
+                .build();
+
+        ChatModel geminiModel = GoogleAiGeminiChatModel.builder()
+                .modelName("gemini-2.0-flash-exp")
+                .apiKey(System.getenv("GEMINI_API_KEY"))
+                .timeout(chatModelTimeout)
+                .maxRetries(1)
+                .build();
+
+        ChatModel openRouterModel = OpenAiChatModel.builder()
                 .baseUrl("https://openrouter.ai/api/v1")
                 .modelName("google/gemini-2.0-flash-exp:free")
-                .apiKey("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")
+                .apiKey(System.getenv("OPENROUTER_API_KEY"))
+                .timeout(chatModelTimeout)
+                .maxRetries(1)
                 .build();
-    }
 
-    //    @Bean
-    GoogleAiGeminiChatModel googleAiGeminiChatModel() {
-        return GoogleAiGeminiChatModel.builder()
-                .modelName("gemini-2.5-flash")
-                .apiKey("AIzaSyAidXXPMb0ewZfOLp_8JP7phZxBSYgMafI")
+        ChatModel ollamaModel = OllamaChatModel.builder()
+                .baseUrl("http://localhost:11434/")
+                .modelName("gemma2:2b")
+                .think(false)
+                .returnThinking(false)
+                .temperature(0.0D)
+                .timeout(chatModelTimeout)
+                .numPredict(150)
+                .maxRetries(1)
                 .build();
+
+        providers.add(groqModel);
+        providers.add(geminiModel);
+        providers.add(openRouterModel);
+        providers.add(ollamaModel);
+
+        log.info("Successfully initialized {} API providers", providers.size());
+        return new RotatingChatModel(providers, chatModelTimeout.multipliedBy(providers.size()));
     }
 
     public static WidGet widGet(ShadowRootHelper shadowRootHelper) {

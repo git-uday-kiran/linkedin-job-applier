@@ -72,9 +72,10 @@ public class LLMService {
 
     public boolean askJobIsSuitable(String jobDescription) {
         String combinedSystemContext = profileContext + "\n\n" + jobSuitableContext;
-        String prompt = "Job Description: \n\n" + jobDescription;
+        String prompt = "Job Description: \n" + jobDescription +
+                "\n\n\nIs this job suitable? You MUST answer with ONLY 'Yes' or 'No' on the first line. If 'No', then must return the 'Reason: ' on next line.";
 
-        String aiResponse = askLLM(combinedSystemContext, prompt);
+        String aiResponse = askLLM(combinedSystemContext, prompt).trim();
 
         if (aiResponse.startsWith("Yes")) {
             log.info("Job is suitable");
@@ -83,7 +84,7 @@ public class LLMService {
         if (aiResponse.startsWith("No")) {
             int reasonStartIndex = aiResponse.indexOf("Reason: ");
             if (reasonStartIndex < 0) {
-                throw new IllegalStateException("LLM did not return a response for job not suitable response. LLM Response: " + aiResponse);
+                throw new IllegalStateException("LLM did not return a reason for job not suitable response. LLM Response: " + aiResponse);
             }
             String reason = aiResponse.substring(reasonStartIndex + 8);
             log.info("Job is not suitable, Reason: {}", reason);

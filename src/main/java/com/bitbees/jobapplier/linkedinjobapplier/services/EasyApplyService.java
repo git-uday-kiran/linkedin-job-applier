@@ -68,8 +68,6 @@ public class EasyApplyService extends Page {
                 50
         );
 
-        pause(Duration.ofSeconds(10));
-
         By applyFilterLocation = By.xpath("//div[contains(@class, 'search-reusables__side-panel--open')]//button/span[contains(., 'Show')]");
         WebElement applyFilter = waitForPresenceAndClickable(applyFilterLocation);
         log.info("Clicking apply filter...");
