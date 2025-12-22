@@ -1,7 +1,7 @@
 package com.bitbees.jobapplier.linkedinjobapplier.services;
 
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.enums.*;
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.filters.EasyApplyFilter;
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.configuration.EasyApplyFilter;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;

@@ -1,5 +1,6 @@
 package com.bitbees.jobapplier.linkedinjobapplier.services;
 
+import com.bitbees.jobapplier.linkedinjobapplier.configuration.JobFinderConfig;
 import com.bitbees.jobapplier.linkedinjobapplier.events.JobFoundEvent;
 import com.bitbees.jobapplier.linkedinjobapplier.models.Page;
 import lombok.NonNull;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static java.util.function.Predicate.not;
+
 @Log4j2
 @Service
 public class JobsFinder extends Page implements ApplicationContextAware {
@@ -24,9 +27,11 @@ public class JobsFinder extends Page implements ApplicationContextAware {
     private static final By JOB_CARDS_LOCATION = By.xpath("//main[@id='main']/div/div[2]/div/div/ul/./li");
 
     private ApplicationContext ctx;
+    protected final JobFinderConfig config;
 
-    protected JobsFinder(WebDriver webDriver, WebDriverWait wait) {
+    protected JobsFinder(WebDriver webDriver, WebDriverWait wait, JobFinderConfig config) {
         super(webDriver, wait);
+        this.config = config;
     }
 
     public void scanJobs() {
@@ -34,6 +39,7 @@ public class JobsFinder extends Page implements ApplicationContextAware {
         for (int page = 1; page <= 100; page++) {
             List<WebElement> jobs = getNewJobs();
             jobs.stream()
+                    .filter(not(this::skip))
                     .map(this::getJobUrl)
                     .map(JobFoundEvent::new)
                     .forEach(ctx::publishEvent);
@@ -42,6 +48,11 @@ public class JobsFinder extends Page implements ApplicationContextAware {
                 break;
             }
         }
+    }
+
+    private boolean skip(WebElement element) {
+        boolean viewed = element.getText().contains("Viewed");
+        return viewed && config.isSkipViewedJobs();
     }
 
     private String getJobUrl(WebElement jobCardElement) {

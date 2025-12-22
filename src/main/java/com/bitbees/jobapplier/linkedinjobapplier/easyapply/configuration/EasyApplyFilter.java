@@ -1,4 +1,4 @@
-package com.bitbees.jobapplier.linkedinjobapplier.easyapply.filters;
+package com.bitbees.jobapplier.linkedinjobapplier.easyapply.configuration;
 
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.enums.*;
 import lombok.Getter;
@@ -31,6 +31,7 @@ public class EasyApplyFilter {
     private InYourNetwork inYourNetwork;
     private List<Commitment> commitments = new ArrayList<>();
     private String searchQuery;
+    private String searchLocation;
 
     public enum Industry {
         IT_SERVICES_AND_IT_CONSULTING, SOFTWARE_DEVELOPMENT, STAFFING_AND_RECRUITING, TECHNOLOGY_INFORMATION_AND_INTERNET, FINANCIAL_SERVICE, TECHNOLOGY_INFORMATION_AND_MEDIA, HUMAN_RESOURCES_SERVICES, BUSINESS_CONSULTING_AND_SERVICES, INFORMATION_TECHNOLOGY_AND_SERVICES, BANKING, INFORMATION_SERVICES, COMPUTER_HARDWARE_MANUFACTURING, COMPUTER_AND_NETWORK_SECURITY, PHARMACEUTICAL_MANUFACTURING;

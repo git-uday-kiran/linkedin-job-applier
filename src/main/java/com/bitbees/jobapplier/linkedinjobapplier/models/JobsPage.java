@@ -1,7 +1,7 @@
 package com.bitbees.jobapplier.linkedinjobapplier.models;
 
 import com.bitbees.jobapplier.linkedinjobapplier.components.UnorderedList;
-import com.bitbees.jobapplier.linkedinjobapplier.easyapply.filters.EasyApplyFilter;
+import com.bitbees.jobapplier.linkedinjobapplier.easyapply.configuration.EasyApplyFilter;
 import com.bitbees.jobapplier.linkedinjobapplier.services.EasyApplyService;
 import io.vavr.control.Try;
 import lombok.extern.log4j.Log4j2;
