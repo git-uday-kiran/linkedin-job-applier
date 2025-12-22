@@ -22,7 +22,7 @@ public class NumericQuestionsSolver implements InputQuestionSolver {
     @Override
     public String solveQuestion(String question) {
         log.info("Asking LLM question: {}", question);
-        String response = String.valueOf(lLMService.askNumericResponse(question)).replaceAll("\\.0*}", "");
+        String response = lLMService.askNumericResponse(question);
         log.info("Response: {}", response);
         return response;
     }

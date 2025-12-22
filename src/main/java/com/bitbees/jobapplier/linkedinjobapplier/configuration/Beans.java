@@ -3,6 +3,7 @@ package com.bitbees.jobapplier.linkedinjobapplier.configuration;
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.QuestionsSolver;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
+import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import lombok.NonNull;
@@ -62,12 +63,20 @@ public class Beans implements ApplicationContextAware {
                 .build();
     }
 
-    @Bean
+//    @Bean
     OpenAiChatModel openAiChatModel() {
         return OpenAiChatModel.builder()
                 .baseUrl("https://openrouter.ai/api/v1")
                 .modelName("x-ai/grok-4.1-fast")
                 .apiKey("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")
+                .build();
+    }
+
+    @Bean
+    GoogleAiGeminiChatModel googleAiGeminiChatModel() {
+        return GoogleAiGeminiChatModel.builder()
+                .modelName("gemini-2.5-flash")
+                .apiKey("AIzaSyAidXXPMb0ewZfOLp_8JP7phZxBSYgMafI")
                 .build();
     }
 

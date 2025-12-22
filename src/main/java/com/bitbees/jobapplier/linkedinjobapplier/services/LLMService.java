@@ -42,9 +42,9 @@ public class LLMService {
         return askLLMQuestion(prompt);
     }
 
-    public Double askNumericResponse(String question) {
+    public String askNumericResponse(String question) {
         String prompt = LLMUtil.getPrompt(question, "NUMERIC");
-        return Double.valueOf(askLLMQuestion(prompt));
+        return askLLMQuestion(prompt).replaceAll("\\.0*", "");
     }
 
     public int askSelectOption(String question, List<String> options) {
@@ -112,7 +112,7 @@ public class LLMService {
         );
         ChatResponse chatResponse = chatModel.chat(chats);
         AiMessage aiMessage = chatResponse.aiMessage();
-        log.debug("LLM Response: {}", aiMessage.text());
+        log.info("LLM Response: {}", aiMessage.text());
         return aiMessage.text();
     }
 }
