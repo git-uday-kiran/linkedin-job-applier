@@ -70,8 +70,8 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
         String jobCardText = jobCard.getAttribute("textContent");
         String aboutTheJobText = aboutTheJob.getAttribute("textContent");
 
-        System.out.println("jobCardText = " + jobCardText);
-        System.out.println("aboutTheJobText = " + aboutTheJobText);
+        log.debug("jobCardText = {}", jobCardText);
+        log.debug("aboutTheJobText = {}", aboutTheJobText);
 
         String jobDescription = jobCardText + "\n\n" + aboutTheJobText;
         return lLMService.askJobIsSuitable(jobDescription);
