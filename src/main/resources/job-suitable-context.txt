@@ -42,6 +42,7 @@ Example:
 - 5+ years experience required
 - Senior/Lead position requiring management/mentoring
 - International relocation
+- Part-time or Contract positions
 
 **ACCEPT (Answer "Yes") if job involves:**
 - Backend development with Java/Spring Boot
@@ -51,15 +52,19 @@ Example:
 - Location: India or Remote (IST hours)
 - Company size: 500+ employees
 - Roles: Software Engineer, Backend Developer, Java Developer, SDE
+- Job Type: Full-time (ACCEPT full-time positions)
+- Work Type: On-site, Hybrid, or Remote (ALL are acceptable)
 
 ---
 
 **EVALUATION STEPS:**
-1. Check deal-breakers: company size, location, shift, role type
-2. Check experience (reject if > 4 years)
-3. Check primary tech (must be Java backend)
-4. Check MANDATORY skills only (need 80%+ match)
-5. IGNORE optional/nice-to-have skills completely
+1. Check job type (ACCEPT full-time, REJECT part-time/contract)
+2. Check work type (ACCEPT on-site/hybrid/remote - ALL are suitable)
+3. Check deal-breakers: company size, location, shift, role type
+4. Check experience (reject if > 4 years)
+5. Check primary tech (must be Java backend)
+6. Check MANDATORY skills only (need 80%+ match)
+7. IGNORE optional/nice-to-have skills completely
 
 **REASON FORMAT (brief):**
 - "Requires frontend development"
@@ -89,30 +94,43 @@ Example: "Experience in Scala is a plus" → IGNORE Scala requirement completely
 
 **EXAMPLES:**
 
-Job: "Backend Java Developer, 2-3 years, Spring Boot, MySQL, Bangalore, 1000+ employees"
+Job: "Backend Java Developer, Full-time, On-site, 2-3 years, Spring Boot, MySQL, Bangalore, 1000+ employees"
 Response:
 Yes
 
-Job: "Full Stack Developer, React + Java, 2 years, Remote, 200 employees"
+Job: "Backend Java Developer, Full-time, Hybrid, 3 years, Spring Boot, Kafka, Delhi, 700 employees"
+Response:
+Yes
+
+Job: "Backend Java Developer, Full-time, Remote, 2 years, Spring Boot, AWS, Mumbai, 900 employees"
+Response:
+Yes
+
+Job: "Full Stack Developer, Full-time, On-site, React + Java, 2 years, Remote, 200 employees"
 Response:
 No
 Reason: Full-stack role, company size < 500 employees
 
-Job: "Senior Java Developer, 5+ years, requires Docker/K8s, Pune, 800 employees"
+Job: "Senior Java Developer, Full-time, On-site, 5+ years, requires Docker/K8s, Pune, 800 employees"
 Response:
 No
 Reason: Requires 5+ years experience, requires Docker/Kubernetes
 
-Job: "Backend Engineer, Python/Django, 2 years, Bangalore, 600 employees"
+Job: "Backend Engineer, Full-time, On-site, Python/Django, 2 years, Bangalore, 600 employees"
 Response:
 No
 Reason: Primary language is Python
 
-Job: "Java Backend Developer, 3 years, Spring Boot, MySQL, Docker knowledge is a plus, Bangalore, 1000+ employees"
+Job: "Java Backend Developer, Part-time, On-site, 3 years, Spring Boot, MySQL, Bangalore, 1000+ employees"
+Response:
+No
+Reason: Part-time position
+
+Job: "Java Backend Developer, Full-time, On-site, 3 years, Spring Boot, MySQL, Docker knowledge is a plus, Bangalore, 1000+ employees"
 Response:
 Yes
 
-Job: "Java Developer, 2 years, Spring Boot, AWS, experience in Kubernetes is a bonus, Mumbai, 800 employees"
+Job: "Java Developer, Full-time, Hybrid, 2 years, Spring Boot, AWS, experience in Kubernetes is a bonus, Mumbai, 800 employees"
 Response:
 Yes
 
@@ -121,9 +139,11 @@ Yes
 **CRITICAL RULES:**
 1. First line MUST be "Yes" or "No"
 2. If "No", second line MUST be "Reason: [text]"
-3. Be strict on deal-breakers (company size, location, experience, role type)
-4. COMPLETELY IGNORE optional skills ("plus", "bonus", "nice to have", "preferred")
-5. Only evaluate MANDATORY requirements - reject only if missing critical skills
-6. Bangalore and Bengaluru are the same city
-7. Do not validate job description locations against job posting location
+3. ACCEPT all full-time positions (on-site, hybrid, and remote are ALL acceptable)
+4. REJECT part-time or contract positions
+5. Be strict on deal-breakers (company size, location, experience, role type)
+6. COMPLETELY IGNORE optional skills ("plus", "bonus", "nice to have", "preferred")
+7. Only evaluate MANDATORY requirements - reject only if missing critical skills
+8. Bangalore and Bengaluru are the same city
+9. Do not validate job description locations against job posting location
 

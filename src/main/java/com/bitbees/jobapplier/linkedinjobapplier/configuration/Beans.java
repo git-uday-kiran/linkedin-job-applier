@@ -3,6 +3,8 @@ package com.bitbees.jobapplier.linkedinjobapplier.configuration;
 import com.bitbees.jobapplier.linkedinjobapplier.easyapply.question_solvers.QuestionsSolver;
 import com.bitbees.jobapplier.linkedinjobapplier.models.ShadowRootHelper;
 import com.bitbees.jobapplier.linkedinjobapplier.pages.WidGet;
+import dev.langchain4j.model.anthropic.AnthropicChatModel;
+import dev.langchain4j.model.anthropic.AnthropicChatModelName;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.ollama.OllamaChatModel;
@@ -61,7 +63,16 @@ public class Beans implements ApplicationContextAware {
         log.info("Initializing rotating chat model with multiple API providers...");
 
         List<ChatModel> providers = new ArrayList<>();
-        Duration chatModelTimeout = Duration.ofSeconds(5);
+        Duration chatModelTimeout = Duration.ofSeconds(50000);
+
+        ChatModel anthropic = AnthropicChatModel.builder()
+                .cacheSystemMessages(true)
+                .cacheTools(true)
+                .modelName(AnthropicChatModelName.CLAUDE_HAIKU_4_5_20251001)
+                .apiKey(System.getenv("CLAUDE_API_KEY"))
+                .temperature(0.0D)
+                .maxTokens(2048)
+                .build();
 
         ChatModel groqModel = OpenAiChatModel.builder()
                 .baseUrl("https://api.groq.com/openai/v1")
@@ -88,7 +99,8 @@ public class Beans implements ApplicationContextAware {
 
         ChatModel ollamaModel = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434/")
-                .modelName("gemma2:2b")
+//                .modelName("gemma2:2b")
+                .modelName("qwen2.5:7b")  // Perfect for instruction-heavy tasks
                 .think(false)
                 .returnThinking(false)
                 .temperature(0.0D)
@@ -97,10 +109,11 @@ public class Beans implements ApplicationContextAware {
                 .maxRetries(1)
                 .build();
 
+//        providers.add(anthropic);
 //        providers.add(groqModel);
-        providers.add(geminiModel);
+//        providers.add(geminiModel);
 //        providers.add(openRouterModel);
-//        providers.add(ollamaModel);
+        providers.add(ollamaModel);
 
         log.info("Successfully initialized {} API providers", providers.size());
         return new RotatingChatModel(providers, chatModelTimeout.multipliedBy(providers.size()));

@@ -17,11 +17,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobFoundEventListener extends Page implements ApplicationListener<JobFoundEvent> {
 
-    private static final By EASY_APPLY = By.xpath("//span[text()='Easy Apply']/../..");
+    private static final By EASY_APPLY = By.xpath("//div[@class='jobs-apply-button--top-card']/button[@id='jobs-apply-button-id']/span[text()='Easy Apply']");
     //    private static final By EASY_APPLY = By.xpath("//span[text()='Save']/../../../../following-sibling::div/div//span[text()='Easy Apply']/../..");
     private static final By EASY_APPLY_MODEL = By.cssSelector("div[data-test-modal-id='easy-apply-modal']");
-    private static final By DISCARD_APPLICATION = By.xpath("");
-    private static final By SHOW_ALL_LOCATION = By.cssSelector(".discovery-templates-vertical-list__footer > a");
     public static final By SHADOW_PARENT_LOCATION = By.xpath("//div[@id='interop-outlet']");
     private final LLMService lLMService;
 
@@ -61,8 +59,8 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
     }
 
     private boolean isJobSuitable() {
-        By jobCardLocation = By.xpath("//main/div/div/div/div/div/div/div/div/div/div/div/div");
-        By aboutTheJobLocation = By.xpath("//div[contains(normalize-space(.), 'About the job') and @data-display-contents='true']/div[not(@data-testid)]");
+        By jobCardLocation = By.cssSelector("div.relative:nth-child(1) > div:nth-child(1)");
+        By aboutTheJobLocation = By.xpath("//div[contains(normalize-space(.), 'About the job') and contains(@class, 'jobs-description__content')]");
 
         WebElement jobCard = webDriver.findElement(jobCardLocation);
         WebElement aboutTheJob = webDriver.findElement(aboutTheJobLocation);
@@ -74,16 +72,16 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
         log.debug("aboutTheJobText = {}", aboutTheJobText);
 
         String jobDescription = jobCardText + "\n\n" + aboutTheJobText;
-//        return lLMService.askJobIsSuitable(jobDescription);
-        return true;
+        return lLMService.askJobIsSuitable(jobDescription);
+//        return true;
     }
 
     private void applyEasyApplyJob(WebElement easyApplyElement) {
         log.info("Applying job... ");
         click(easyApplyElement);
 
-        WebElement shadowParent = webDriver.findElement(SHADOW_PARENT_LOCATION);
-        SearchContext shadowRoot = shadowParent.getShadowRoot();
+        WebElement shadowParent = tryFindElement(SHADOW_PARENT_LOCATION).orElse(null);
+        SearchContext shadowRoot = (shadowParent != null) ? shadowParent.getShadowRoot() : webDriver;
         ShadowRootHelper shadowRootHelper = new ShadowRootHelper(shadowRoot, wait, webDriver);
         WidGet widGet = Beans.widGet(shadowRootHelper);
 
