@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JobFoundEventListener extends Page implements ApplicationListener<JobFoundEvent> {
 
-    private static final By EASY_APPLY = By.xpath("//div[@class='jobs-apply-button--top-card']/button[@id='jobs-apply-button-id']/span[text()='Easy Apply']");
+    private static final By EASY_APPLY = By.xpath("//div[@class='jobs-apply-button--top-card']/button[@id='jobs-apply-button-id']/span[text()='Easy Apply']/..");
     //    private static final By EASY_APPLY = By.xpath("//span[text()='Save']/../../../../following-sibling::div/div//span[text()='Easy Apply']/../..");
     private static final By EASY_APPLY_MODEL = By.cssSelector("div[data-test-modal-id='easy-apply-modal']");
     public static final By SHADOW_PARENT_LOCATION = By.xpath("//div[@id='interop-outlet']");
@@ -72,8 +72,8 @@ public class JobFoundEventListener extends Page implements ApplicationListener<J
         log.debug("aboutTheJobText = {}", aboutTheJobText);
 
         String jobDescription = jobCardText + "\n\n" + aboutTheJobText;
-        return lLMService.askJobIsSuitable(jobDescription);
-//        return true;
+//        return lLMService.askJobIsSuitable(jobDescription);
+        return true;
     }
 
     private void applyEasyApplyJob(WebElement easyApplyElement) {

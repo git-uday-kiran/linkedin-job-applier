@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
 @EnableConfigurationProperties
@@ -22,7 +22,7 @@ public class LinkedinJobApplierApplication {
         SpringApplication.run(LinkedinJobApplierApplication.class, args);
     }
 
-    @Bean
+    //    @Bean
     CommandLineRunner commandLineRunner(JobsPage jobsPage,
                                         JobsFinder jobsFinder,
                                         EasyApplyFilter searchFilter) {
@@ -35,9 +35,9 @@ public class LinkedinJobApplierApplication {
         };
     }
 
-    //    @EventListener(ApplicationStartedEvent.class)
+    @EventListener(ApplicationStartedEvent.class)
     void jobFoundEvent(ApplicationStartedEvent event) {
-        String url = "https://www.linkedin.com/jobs/view/4344980193/?eBP=CwEAAAGbRodZpcozqErBengbA6mC1-Cy9uXyAvSaj64uu0UvE2xYT3K56wA3mm1hi7H_jt0rBi0HSPoElIuFU_cNLQuhcYKg8CLgQVt_Ei0rgUKTpCShLzEdip1IL01n-WfJvBDme6f1yvf18k5xP8x4V9iZ5uUlhBBvfNNn5SwFzC-p2WX9sVA22Tc-Y1xwmqnUo-hKV0a4P-WQGX2_GZiF0NrhsH-KCUVSkjt1zI_WOwYJ-bD5PNZPkEcny_sbHZCPuQKK_9QHWpD_EhF9jnXhr95dt7VG4ccYgW-qHXiSTB_-Fqba67THnK4HL6hnum5OiyAvQM7r1hISQTV0F4_E9txEgbNhrgGXFgk2nKL1uVMzn7qeoFrnBiF-5jfFibnJ5hWYqLmZF3KXcQB0C-VkbTRwjuuZKHuLf_VkPaYoSr4z771kbej9n8ScCNANR7m1U-xI2WVmWfUd1_B8L-u85nF-9x36A908mzN13F769dO0IAaDcuFflNTSzNy08A&trk=flagship3_search_srp_jobs&refId=%2BY4p7kPvIHrAVXultnE0eg%3D%3D&trackingId=AILc6cthSTjgNC92EPaD6Q%3D%3D";
+        String url = "https://www.linkedin.com/jobs/view/4329006483/?eBP=NON_CHARGEABLE_CHANNEL&refId=hsV0JyV6Z5UHsrwukOuIfg%3D%3D&trackingId=ZO%2BYNyZwZ3kEH4E6Jq564Q%3D%3D&trk=flagship3_search_srp_jobs&lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_jobs%3B%2B3HExv%2B7Tx21qQq8eZJd9Q%3D%3D&lici=ZO%2BYNyZwZ3kEH4E6Jq564Q%3D%3D";
         ConfigurableApplicationContext context = event.getApplicationContext();
         context.publishEvent(new JobFoundEvent(url));
     }

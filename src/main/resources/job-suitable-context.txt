@@ -1,6 +1,8 @@
 === JOB MATCH EVALUATION ===
 
-Evaluate if the job description matches the candidate profile.
+You are evaluating if a job matches the candidate profile.
+
+**CRITICAL INSTRUCTION: Follow the EVALUATION STEPS section below step-by-step. Stop at the first failed check.**
 
 **OUTPUT FORMAT (MUST FOLLOW):**
 
@@ -9,141 +11,318 @@ Yes
 
 If NOT suitable:
 No
-Reason: [Brief reason]
+Reason: [Brief reason from the step that failed]
+
+---
+
+**CORE PRINCIPLE:**
+
+Candidate: Java backend developer, 2 years experience
+Goal: Apply to Java backend jobs in large companies (500+ employees)
+Approach: Follow the 7-step checklist below - if ANY step fails, REJECT immediately with the reason from that step
+
+---
+
+**CRITICAL DEAL-BREAKERS (REJECT ONLY FOR THESE):**
+
+1. **Wrong Role Type:**
+   - Frontend roles (React, Angular, Vue developer)
+   - Full-stack roles (requires both frontend AND backend)
+   - UI/UX designer
+   - DevOps/SRE focused roles (primary focus on infrastructure, not development)
+   - Data Science/ML Engineer (primary focus on ML, not backend development)
+
+2. **Wrong Primary Language:**
+   - Primary language is NOT Java (Python, Node.js, Go, .NET, PHP, Ruby, etc.)
+   - Note: "Primary language" means the main language for the role, not just mentioned in passing
+
+3. **Experience Mismatch:**
+   - Requires 5+ years of experience
+   - Explicitly requires "Senior" or "Lead" level with people management/mentoring
+   - Entry-level/internship requiring 0 years (candidate has 2 years)
+
+4. **Company Size:**
+   - Company has < 500 employees (STRICT requirement)
+   - Startup/small company (unless explicitly stated 500+ employees)
+
+5. **Location/Timezone:**
+   - Job location outside India (unless explicitly remote with IST/India hours)
+   - Requires US/EU/night shift timings
+   - Requires international relocation
+
+6. **Job Type:**
+   - Part-time positions
+   - Contract/Freelance positions (reject unless it's full-time contract-to-hire)
+   - Internships
+
+7. **Impossible Skill Requirements:**
+   - Requires MANDATORY skills in technologies candidate has ZERO experience in AND are core to the role
+   - Example: "Must have 2+ years Golang" - reject (different language)
+   - Example: "Must have Docker/Kubernetes" - still ACCEPT (these are deployment tools, candidate can learn)
+
+---
+
+**ACCEPT (Answer "Yes") - THE CANDIDATE CAN DO THESE JOBS:**
+
+✅ **Any Java Backend Development Role:**
+- Java Developer, Backend Engineer, Software Engineer (Backend), SDE
+- ANY Java backend framework: Spring Boot, Spring, Java EE, Hibernate, Micronaut, Quarkus, etc.
+- Core Java, Java 8+, Java 11, Java 17, Java 21
+- Backend services, REST APIs, Microservices, Monoliths - ALL acceptable
+
+✅ **Technology Stack (Candidate knows OR can easily learn):**
+- Databases: MySQL, PostgreSQL, MongoDB, any SQL/NoSQL database
+- Messaging: Kafka, RabbitMQ, ActiveMQ, any message queue
+- Caching: Redis, Memcached (candidate can learn)
+- Cloud: AWS, Azure, GCP, any cloud platform
+- Build tools: Maven, Gradle
+- Testing: JUnit, Mockito, TestNG, any Java testing framework
+- Version control: Git, GitLab, Bitbucket
+
+✅ **Experience Range:**
+- 0-4 years required (candidate has 2 years)
+- "2-4 years", "1-3 years", "0-2 years" - ALL acceptable
+- "Mid-level" positions (suitable for 2 years experience)
+
+✅ **Work Arrangement:**
+- Full-time positions (on-site, hybrid, remote - ALL acceptable)
+- Location: Anywhere in India or Remote (India/IST hours)
+- Company size: 500+ employees
 
 ---
 
 **IMPORTANT: MANDATORY vs OPTIONAL SKILLS**
 
-Only reject jobs for missing MANDATORY skills. Ignore optional skills completely.
+ONLY reject for missing MANDATORY skills that are CORE to the job AND the candidate has NO relevant experience.
 
-MANDATORY skills are stated as:
-- "Required", "Must have", "Should have"
-- Listed under "Requirements" or "Qualifications"
-- No qualifier words
+**MANDATORY** skills use words like:
+- "Required", "Must have", "Should have", "Need"
+- Listed under "Requirements", "Qualifications", "Must-haves"
 
-OPTIONAL skills use phrases like:
+**OPTIONAL** skills use phrases like:
 - "Plus", "Bonus", "Nice to have", "Preferred", "Good to have"
-- "Familiarity with", "Exposure to", "Knowledge of... advantageous"
+- "Familiarity with", "Exposure to", "Advantageous", "Desirable"
+- "Knowledge of... is a plus"
 
-Example:
-"Required: Java, Spring Boot. Docker knowledge is a plus"
-→ Evaluate ONLY Java and Spring Boot. IGNORE Docker completely.
+**SKILL EVALUATION LOGIC:**
 
----
+1. **Ignore optional skills completely** - Don't even consider them
+2. **For mandatory skills:**
+   - Core Java/Backend skills: Candidate HAS this ✅
+   - Similar technologies: ACCEPT (e.g., knows MySQL → can work with PostgreSQL)
+   - Learnable tools: ACCEPT (e.g., Docker, Kubernetes, CI/CD - these can be learned on the job)
+   - Different language/platform: REJECT (e.g., Python/Django, Node.js, .NET)
 
-**REJECT (Answer "No") if job requires:**
-- Frontend, Full-stack, or UI/UX work
-- Primary language other than Java (Python, Node.js, Go, etc.)
-- Docker/Kubernetes as mandatory requirement
-- Company size < 500 employees
-- Location outside India (unless remote with IST hours)
-- US/EU time zone or night shifts
-- 5+ years experience required
-- Senior/Lead position requiring management/mentoring
-- International relocation
-- Part-time or Contract positions
-
-**ACCEPT (Answer "Yes") if job involves:**
-- Backend development with Java/Spring Boot
-- REST APIs, Microservices
-- MySQL, MongoDB, Kafka, AWS
-- 0-4 years experience required
-- Location: India or Remote (IST hours)
-- Company size: 500+ employees
-- Roles: Software Engineer, Backend Developer, Java Developer, SDE
-- Job Type: Full-time (ACCEPT full-time positions)
-- Work Type: On-site, Hybrid, or Remote (ALL are acceptable)
+**Examples:**
+- "Required: Java, Spring Boot" → ACCEPT (candidate has both)
+- "Required: Java, Hibernate" → ACCEPT (candidate has JPA/Hibernate experience)
+- "Required: Java, PostgreSQL" → ACCEPT (candidate has MySQL, can easily work with PostgreSQL)
+- "Required: Java, Docker, Kubernetes" → ACCEPT (Java is core skill, Docker/K8s can be learned)
+- "Required: Python, Django" → REJECT (different language stack)
+- "Required: Java, React" → REJECT (full-stack role)
 
 ---
 
-**EVALUATION STEPS:**
-1. Check job type (ACCEPT full-time, REJECT part-time/contract)
-2. Check work type (ACCEPT on-site/hybrid/remote - ALL are suitable)
-3. Check deal-breakers: company size, location, shift, role type
-4. Check experience (reject if > 4 years)
-5. Check primary tech (must be Java backend)
-6. Check MANDATORY skills only (need 80%+ match)
-7. IGNORE optional/nice-to-have skills completely
+**EVALUATION STEPS - FOLLOW EXACTLY IN THIS ORDER:**
 
-**REASON FORMAT (brief):**
-- "Requires frontend development"
+YOU MUST CHECK THESE IN ORDER. STOP AT FIRST FAILURE.
+
+**STEP 1: Company Size (MOST IMPORTANT - CHECK FIRST!)**
+Question: Does the job description explicitly mention company size OR company name with 500+ employees?
+- If YES and 500+ employees → Continue to Step 2
+- If NO or size not mentioned or unknown company → REJECT with "Company size not mentioned or < 500 employees"
+- CRITICAL: If job says "client's company" or doesn't name the company → REJECT
+
+**STEP 2: Job Type Check**
+Question: Is this a full-time position?
+- If YES (full-time) → Continue to Step 3
+- If NO (part-time/contract/internship) → REJECT with "Part-time/Contract/Internship position"
+
+**STEP 3: Role Type Check**
+Question: Is this a pure backend development role OR software engineering role?
+- If YES (backend/software engineer) → Continue to Step 4
+- If NO (frontend/full-stack/DevOps/Data Science/QA/ETL Data Engineer) → REJECT with appropriate reason
+- Note: "ETL Developer", "DataStage Developer", "Data Pipeline Engineer" are DATA ENGINEER roles → REJECT with "Data Engineering role, not backend development"
+
+**STEP 4: Primary Language Check**
+Question: Is Java the primary programming language for this role?
+- If YES (Java mentioned as main skill) → Continue to Step 5
+- If NO (Python/Node.js/Go/.NET as primary) → REJECT with "Primary language is [X], not Java"
+
+**STEP 5: Experience Level Check**
+Question: Does the job require 0-4 years of experience?
+- If YES (0-4 years) → Continue to Step 6
+- If NO (5+ years or Senior/Lead with management) → REJECT with "Requires 5+ years experience" or "Senior/Lead position"
+
+**STEP 6: Location/Timezone Check**
+Question: Is the job in India OR Remote (India/IST hours)?
+- If YES → Continue to Step 7
+- If NO (international/US-EU shift) → REJECT with "Location outside India" or "US/EU timezone required"
+
+**STEP 7: All Checks Passed**
+→ Answer "Yes"
+
+---
+
+**REASON FORMAT (Be specific but brief):**
+
+Good reasons:
+- "Primary language is Python, not Java"
+- "Full-stack role requiring React and Java"
+- "Requires 6 years of experience"
 - "Company size < 500 employees"
-- "Requires 5+ years experience"
-- "Primary language is Python"
-- "US time zone required"
-- "Full-stack role"
-- "Requires Docker/Kubernetes"
+- "Requires US timezone/night shift"
+- "Frontend role"
+- "Part-time position"
+- "DevOps role, not backend development"
+
+Bad reasons (too restrictive - DON'T use):
+- "No mention of Spring Boot" ❌
+- "Doesn't mention REST APIs" ❌
+- "Requires Docker" ❌
+- "Missing Kubernetes experience" ❌
 
 ---
 
 **OPTIONAL SKILL INDICATORS (IGNORE THESE):**
+
 These phrases mean the skill is NOT mandatory - DO NOT reject for missing these:
-- "is a plus"
-- "is a bonus"
-- "nice to have"
-- "preferred"
-- "good to have"
-- "familiarity with"
-- "exposure to"
-- "knowledge of... would be advantageous"
+- "is a plus", "is a bonus"
+- "nice to have", "good to have"
+- "preferred", "desirable"
+- "familiarity with", "exposure to"
+- "knowledge of... would be advantageous/beneficial"
+- "experience with... is welcomed"
 
-Example: "Experience in Scala is a plus" → IGNORE Scala requirement completely
+Example: "Experience in Scala is a plus" → IGNORE Scala completely
+Example: "Docker/Kubernetes preferred" → IGNORE Docker/Kubernetes completely
 
 ---
 
-**EXAMPLES:**
+**REALISTIC EXAMPLES:**
 
-Job: "Backend Java Developer, Full-time, On-site, 2-3 years, Spring Boot, MySQL, Bangalore, 1000+ employees"
-Response:
-Yes
+✅ ACCEPT - "Acme Corp (2000 employees), Backend Java Developer, 2-3 years, Spring Boot, MySQL, Bangalore, Full-time, On-site"
+Reason: ✓ Company size mentioned (2000), ✓ Full-time, ✓ Backend, ✓ Java, ✓ 2-3 years, ✓ India
 
-Job: "Backend Java Developer, Full-time, Hybrid, 3 years, Spring Boot, Kafka, Delhi, 700 employees"
-Response:
-Yes
+✅ ACCEPT - "TechCo India (800 employees), Java Developer, 2 years, Core Java, Hibernate, PostgreSQL, Pune, Full-time, Hybrid"
+Reason: ✓ Company size 800, ✓ Full-time, ✓ Backend Java, ✓ 2 years experience
 
-Job: "Backend Java Developer, Full-time, Remote, 2 years, Spring Boot, AWS, Mumbai, 900 employees"
-Response:
-Yes
+✅ ACCEPT - "Software Engineer - Backend, 1-3 years, Java 11, Microservices, Kafka, Remote India, Full-time. Company: GlobalTech (5000+ employees)"
+Reason: ✓ Company size 5000+, ✓ Full-time, ✓ Backend, ✓ Java, ✓ Remote India
 
-Job: "Full Stack Developer, Full-time, On-site, React + Java, 2 years, Remote, 200 employees"
-Response:
-No
-Reason: Full-stack role, company size < 500 employees
+✅ ACCEPT - "InfoSys (100,000+ employees), Backend Engineer, 3 years, Java, Spring Framework, REST APIs, Hyderabad, Full-time"
+Reason: ✓ Well-known company (100k+ employees), ✓ All criteria met
 
-Job: "Senior Java Developer, Full-time, On-site, 5+ years, requires Docker/K8s, Pune, 800 employees"
-Response:
-No
-Reason: Requires 5+ years experience, requires Docker/Kubernetes
+✅ ACCEPT - "Wipro Limited, Java Backend Developer, 2 years, Spring Boot, Docker/Kubernetes required, Mumbai, Full-time, On-site"
+Reason: ✓ Wipro is well-known large company (500k+ employees), ✓ Java backend, ✓ Docker/K8s learnable
 
-Job: "Backend Engineer, Full-time, On-site, Python/Django, 2 years, Bangalore, 600 employees"
-Response:
-No
-Reason: Primary language is Python
+✅ ACCEPT - "SDE - Backend at Amazon, 2-4 years, Java, MySQL/MongoDB, Bangalore, Full-time, Remote"
+Reason: ✓ Amazon is well-known (1M+ employees), ✓ All criteria met
 
-Job: "Java Backend Developer, Part-time, On-site, 3 years, Spring Boot, MySQL, Bangalore, 1000+ employees"
-Response:
-No
+❌ REJECT - "Software Developer, 2 years, Java, SQL, ETL. Scoutit's client. Salary 25-30 LPA"
+Reason: Company size not mentioned or < 500 employees
+[STEP 1 FAILED: Unknown company, size not mentioned]
+
+❌ REJECT - "Java Developer, 2 years, Spring Boot, MySQL, Bangalore. Great startup opportunity!"
+Reason: Company size not mentioned or < 500 employees
+[STEP 1 FAILED: "Startup" indicates small company]
+
+❌ REJECT - "Backend Developer, 2 years, Java, Spring Boot, Pune. Apply now!"
+Reason: Company size not mentioned or < 500 employees
+[STEP 1 FAILED: No company name or size mentioned]
+
+❌ REJECT - "Software Developer, Full-time, 2 years, Java, SQL. Design and optimize data pipelines using IBM DataStage and ETL tools. 1000 employees"
+Reason: Data Engineering role, not backend development
+[STEP 3 FAILED: Primary focus is ETL/DataStage, not backend development]
+
+❌ REJECT - "ETL Developer, 2 years, Java, SQL, DataStage, 800 employees, Bangalore, Full-time"
+Reason: Data Engineering role, not backend development
+[STEP 3 FAILED: ETL Developer is a Data Engineer role]
+
+❌ REJECT - "Full Stack Developer, 2 years, React + Java + Spring Boot, Bangalore, 1000 employees, Full-time"
+Reason: Full-stack role requiring frontend
+[STEP 3 FAILED: Full-stack requires both frontend and backend]
+
+❌ REJECT - "TechCorp (800 employees), Senior Java Developer, 5+ years, Spring Boot, MySQL, Bangalore, Full-time, On-site"
+Reason: Requires 5+ years of experience
+[STEP 5 FAILED: Need 5+ years, candidate has only 2]
+
+❌ REJECT - "BigCorp (1000 employees), Backend Developer, 2-3 years, Python/Django, PostgreSQL, Chennai, Full-time"
+Reason: Primary language is Python, not Java
+[STEP 4 FAILED: Python is primary language]
+
+❌ REJECT - "Java Developer, 2 years, Spring Boot, MySQL, Bangalore, 300 employees, Full-time, On-site"
+Reason: Company size < 500 employees
+[STEP 1 FAILED: Company has only 300 employees]
+
+❌ REJECT - "Acme Inc (1000 employees), Java Backend Developer, 3 years, Spring Boot, Bangalore office, US shift timing, Full-time"
+Reason: Requires US timezone/night shift
+[STEP 6 FAILED: US shift required]
+
+❌ REJECT - "MegaCorp (2000 employees), Java Backend Developer, Part-time, 2 years, Spring Boot, MySQL, Bangalore"
 Reason: Part-time position
+[STEP 2 FAILED: Part-time, not full-time]
 
-Job: "Java Backend Developer, Full-time, On-site, 3 years, Spring Boot, MySQL, Docker knowledge is a plus, Bangalore, 1000+ employees"
-Response:
-Yes
+❌ REJECT - "GlobalTech (800 employees), DevOps Engineer, 2 years, Java (nice to have), Docker, Kubernetes, AWS, Pune, Full-time"
+Reason: DevOps role, not backend development
+[STEP 3 FAILED: DevOps role, Java is optional]
 
-Job: "Java Developer, Full-time, Hybrid, 2 years, Spring Boot, AWS, experience in Kubernetes is a bonus, Mumbai, 800 employees"
-Response:
-Yes
+✅ ACCEPT - "TechSolutions (700 employees), Backend Developer, 2 years, Java or Kotlin, Spring Boot, Bangalore, Full-time"
+Reason: ✓ All checks pass - Java backend, company size 700, 2 years experience
+
+✅ ACCEPT - "FinTech Corp (2000 employees), SDE-2, 2-4 years backend experience, Java ecosystem, microservices, cloud (AWS/GCP), Hyderabad, Full-time, Hybrid"
+Reason: ✓ All checks pass - Java backend, large company, right experience level
 
 ---
 
-**CRITICAL RULES:**
-1. First line MUST be "Yes" or "No"
-2. If "No", second line MUST be "Reason: [text]"
-3. ACCEPT all full-time positions (on-site, hybrid, and remote are ALL acceptable)
-4. REJECT part-time or contract positions
-5. Be strict on deal-breakers (company size, location, experience, role type)
-6. COMPLETELY IGNORE optional skills ("plus", "bonus", "nice to have", "preferred")
-7. Only evaluate MANDATORY requirements - reject only if missing critical skills
-8. Bangalore and Bengaluru are the same city
-9. Do not validate job description locations against job posting location
+**CRITICAL RULES - READ CAREFULLY:**
+
+1. **ALWAYS Follow the 7-Step Evaluation Process Above**
+   - Go through steps 1-7 in order
+   - Stop at the FIRST failed step
+   - Use the rejection reason from that specific step
+   - DO NOT make up your own reasons
+
+2. **Company Size is MANDATORY (Step 1)**
+   - If company size OR name not mentioned → REJECT with "Company size not mentioned or < 500 employees"
+   - If job says "our client" or "hiring for a client" → REJECT (unknown company)
+   - If job says "startup" → REJECT (startups are typically < 500)
+   - Only well-known companies (Google, Amazon, TCS, Infosys, etc.) can skip size mention
+
+3. **Role Type Matters (Step 3)**
+   - ETL Developer, DataStage Developer, Data Pipeline Engineer → REJECT "Data Engineering role"
+   - Full-stack Developer → REJECT "Full-stack role"
+   - DevOps Engineer, SRE → REJECT "DevOps role"
+   - Backend Developer, Software Engineer, Java Developer, SDE → ACCEPT (continue to next step)
+
+4. **Output Format:**
+   - First line MUST be "Yes" or "No"
+   - If "No", second line MUST be "Reason: [exact reason from failed step]"
+
+5. **Be Inclusive for Skills, Strict for Deal-breakers:**
+   - IGNORE all optional skills completely
+   - ACCEPT if candidate has core Java backend skills
+   - Be STRICT on: company size, role type, primary language, experience level, location
+
+6. **Context Notes:**
+   - Bangalore and Bengaluru are the same city
+   - "Software Engineer", "SDE", "Backend Engineer" are all acceptable role titles
+   - Java 8/11/17/21 are all just "Java"
+   - Spring, Spring Boot, Spring Framework are all acceptable
+   - MySQL, PostgreSQL, Oracle are all acceptable (similar technologies)
+
+---
+
+**QUICK REJECTION CHECKLIST:**
+
+Before saying "Yes", verify:
+✓ Company size mentioned AND 500+ employees?
+✓ Full-time position (not part-time/contract)?
+✓ Backend/Software Engineer role (NOT ETL/Data Engineer/Full-stack/DevOps)?
+✓ Primary language is Java (NOT Python/Node.js/Go)?
+✓ Requires 0-4 years (NOT 5+ years)?
+✓ Location is India or Remote India (NOT international/US-EU shift)?
+
+If ANY checkbox is ✗ → Answer "No" with appropriate reason
+If ALL checkboxes are ✓ → Answer "Yes"
 

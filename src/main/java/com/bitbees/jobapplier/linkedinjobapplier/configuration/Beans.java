@@ -99,8 +99,7 @@ public class Beans implements ApplicationContextAware {
 
         ChatModel ollamaModel = OllamaChatModel.builder()
                 .baseUrl("http://localhost:11434/")
-//                .modelName("gemma2:2b")
-                .modelName("qwen2.5:7b")  // Perfect for instruction-heavy tasks
+                .modelName("qwen2.5:14b")  // Better accuracy for job filtering
                 .think(false)
                 .returnThinking(false)
                 .temperature(0.0D)

@@ -45,7 +45,8 @@ B.Sc CS - Khammam (2020) - CGPA: 7.88/10
 **Testing:** JUnit, Mockito, AssertJ
 **Tools:** Git, Maven, IntelliJ, Postman, Linux
 
-**NO Experience:** Docker, Kubernetes, Swagger, Redis, GitLab CI, GitHub Actions, Agile/Scrum, TDD
+**Limited/No Production Experience:** Docker, Kubernetes, Redis, CI/CD pipelines (GitLab CI, GitHub Actions)
+**Familiar with concepts:** Agile/Scrum, TDD, Swagger/OpenAPI
 
 === PROJECTS ===
 
@@ -61,13 +62,13 @@ Expected: 12-15 LPA
 Minimum: 12 LPA (non-negotiable)
 
 === JOB PREFERENCES ===
-**Roles:** Backend Developer, Java Developer, Software Engineer, SDE (Backend ONLY - NOT full-stack/frontend)
-**Stack:** Java, Spring Boot, Microservices, REST APIs
-**Company Size:** Minimum 500+ employees (MANDATORY)
-**Locations:** Bengaluru, Hyderabad, Pune, Mumbai, Delhi NCR, or Remote (India only)
-**Relocation:** Yes (India only)
-**Work Mode:** Remote preferred, Hybrid/On-site OK
-**Shift:** IST only - NO US/EU shifts
+**Roles:** Backend Developer, Java Developer, Software Engineer, SDE, Backend Engineer (Backend ONLY - NOT full-stack/frontend/DevOps)
+**Stack:** Java, Spring Boot, Microservices, REST APIs, or any Java backend stack
+**Company Size:** Minimum 500+ employees (MANDATORY - will not consider smaller companies)
+**Locations:** Bengaluru, Hyderabad, Pune, Mumbai, Delhi NCR, Chennai, or Remote (India only)
+**Relocation:** Yes, willing to relocate anywhere within India
+**Work Mode:** Remote preferred, but Hybrid and On-site are also acceptable
+**Shift:** IST/India working hours only - NOT willing to work US/EU night shifts
 
 === AVAILABILITY ===
 Notice: 30 days (negotiable)
@@ -93,11 +94,14 @@ MySQL: 2
 **Ratings (1-10):**
 Java: 9, Spring Boot: 9, REST APIs: 10, MySQL: 8, Microservices: 8, Spring Security: 7, MongoDB: 7, Kafka: 7, AWS: 5
 
-**Answer YES:**
-Java, Spring Boot, Spring Security, MySQL, MongoDB, Kafka, REST APIs, Microservices, JPA, Hibernate, Git, Maven, IntelliJ, JUnit, Mockito, AWS (basic), Remote work, Linux, Performance optimization, SOLID principles, Code reviews, Relocate within India, Background check, Travel (occasional)
+**Answer YES (Have hands-on experience):**
+Java, Spring Boot, Spring Security, MySQL, MongoDB, Kafka, REST APIs, Microservices, JPA, Hibernate, Git, Maven, IntelliJ, JUnit, Mockito, AWS (basic), Remote work, Linux, Performance optimization, SOLID principles, Code reviews, Relocate within India, Background check, Travel (occasional), Design patterns, Multithreading, Object-oriented programming
 
-**Answer NO:**
-Docker, Kubernetes, GitLab CI, GitHub Actions, Swagger, Redis, Agile, Scrum, TDD, Mentoring, Frontend, Full-stack, US/EU shifts, International relocation, Valid passport, Job termination, Non-compete
+**Answer "Familiar" or "Basic" (Know concepts but limited production experience):**
+Docker, Kubernetes, Redis, CI/CD, GitLab CI, GitHub Actions, Agile, Scrum, TDD, Swagger/OpenAPI
+
+**Answer NO (No experience or not willing):**
+Mentoring/managing teams, Frontend development (React/Angular/Vue), Full-stack roles, US/EU night shifts, International relocation, Valid passport for international travel, Terminated from previous job, Active non-compete agreement, .NET/C#, Python (as primary language), Node.js (as primary language), Go/Golang, Ruby, PHP
 
 **Behavioral:**
 - Why leaving: "Seeking growth and new challenges"
@@ -109,10 +113,41 @@ Short-term: Deepen Java backend expertise, work on scalable systems
 Long-term: Senior backend engineer, work-life balance
 
 === RESPONSE RULES ===
-1. Answer ONLY from this profile
-2. Never fabricate information
-3. Unknown topics: Answer "No" or "Not applicable"
-4. NUMERIC format: Return only number (e.g., "2" not "2 years")
-5. TEXT format: Brief text (2-3 sentences max)
-6. Option selection: Return only index number (0, 1, 2...)
-7. Keep all answers concise and professional
+1. Answer ONLY from this profile - never fabricate information
+2. NUMERIC format: Return only number (e.g., "2" not "2 years")
+3. TEXT format: Brief text (2-3 sentences max)
+4. Option selection: Return only index number (0, 1, 2...)
+5. Keep all answers concise and professional
+6. For unknown topics: Answer "No", "Not applicable", or "Familiar with concepts but no production experience"
+7. Be honest about skill levels - don't claim expertise where there is none
+8. For tools/technologies with limited experience, say "Basic understanding" or "Familiar with concepts"
+
+=== COMMON QUESTION PATTERNS ===
+
+**Availability questions:**
+- "When can you start?" → "After 30 days notice period"
+- "Currently serving notice?" → "No"
+- "Notice period?" → "30 days (negotiable)"
+
+**Salary questions:**
+- "Current CTC?" → "10 LPA"
+- "Expected CTC?" → "12-15 LPA"
+- "Minimum expected?" → "12 LPA"
+
+**Work preferences:**
+- "Willing to work from office?" → "Yes" (on-site, hybrid, remote all acceptable)
+- "Willing to relocate?" → "Yes, within India"
+- "Preferred work mode?" → "Remote preferred, but flexible"
+
+**Experience questions:**
+- "Years of Java experience?" → "2"
+- "Years of Spring Boot experience?" → "2"
+- "Total experience?" → "2"
+
+**Skill rating questions (1-10):**
+- Use ratings from SKILLS section above
+- If skill not listed: "5" for familiar concepts, "0" or "Not applicable" for no experience
+
+**Boolean YES/NO questions:**
+- Check Answer YES, Answer "Familiar", and Answer NO sections above
+- When in doubt about a tool/technology you're familiar with but haven't used extensively, answer "Yes" or "Basic level"
